@@ -1,0 +1,14 @@
+@model ListDateTimeModel
+@using System.Globalization
+
+@{
+    CultureInfo culture = CultureInfo.CurrentUICulture;
+    DateTime utcValue = Model.Value.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(Model.Value, DateTimeKind.Utc)
+        : Model.Value.ToUniversalTime();
+}
+
+<time class="list-datetime" data-fo-utc-datetime datetime="@utcValue.ToString("o", CultureInfo.InvariantCulture)">
+    <span class="list-datetime-primary" data-fo-datetime-primary>@utcValue.ToString("HH:mm", culture)</span>
+    <span class="list-datetime-secondary" data-fo-datetime-secondary>@utcValue.ToString("d MMM yyyy", culture)</span>
+</time>

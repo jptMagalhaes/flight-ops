@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>FlightOps</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="FlightOps.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="9.0.15" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.15">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.15" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="scripts\**" />
+    <Content Remove="scripts\**" />
+    <EmbeddedResource Remove="scripts\**" />
+    <None Remove="scripts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="FlightOps.Tests\**" />
+    <Content Remove="FlightOps.Tests\**" />
+    <EmbeddedResource Remove="FlightOps.Tests\**" />
+    <None Remove="FlightOps.Tests\**" />
+    <Compile Remove="FlightOps.E2E\**" />
+    <Content Remove="FlightOps.E2E\**" />
+    <EmbeddedResource Remove="FlightOps.E2E\**" />
+    <None Remove="FlightOps.E2E\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResources.pt-PT.resx">
+      <DependentUpon>Resources\SharedResources.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SharedResources.de-DE.resx">
+      <DependentUpon>Resources\SharedResources.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

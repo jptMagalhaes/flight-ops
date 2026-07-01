@@ -1,0 +1,9 @@
+@model string
+
+<div class="entity-form-page">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header mb-4">
+        <h1 class="mb-0">@Model</h1>
+        <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.BackToList"]</a>
+    </div>
+    <div class="card entity-form-card">
+        <div class="card-body entity-form-card-body">

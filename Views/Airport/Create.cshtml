@@ -1,0 +1,66 @@
+@model AirportModel
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.CreateAirport"];
+}
+
+@await Html.PartialAsync("Forms/_EntityFormOpen", SharedLocalizer["Title.CreateAirport"].Value)
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <section class="entity-form-section" aria-labelledby="airport-ident-heading">
+        <h2 id="airport-ident-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.AircraftInfo"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="Name" class="form-label entity-form-label-required"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="IATA" class="form-label entity-form-label-required"></label>
+                <input asp-for="IATA" class="form-control text-uppercase" maxlength="3" />
+                <span asp-validation-for="IATA" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="City" class="form-label entity-form-label-required"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="Country" class="form-label entity-form-label-required"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="airport-coords-heading">
+        <h2 id="airport-coords-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Coordinates"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="Latitude" class="form-label entity-form-label-required"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="Longitude" class="form-label entity-form-label-required"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("Forms/_EntityFormFooter", new EntityFormFooterModel
+    {
+        SubmitLabel = SharedLocalizer["Btn.Create"].Value
+    })
+</form>
+@await Html.PartialAsync("Forms/_EntityFormClose")
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("Layout/_ValidationScriptsPartial"); }
+}

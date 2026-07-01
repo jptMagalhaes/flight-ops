@@ -1,0 +1,20 @@
+﻿@{
+    Layout = User.Identity?.IsAuthenticated == true ? "Layout/_Layout" : "Layout/_AuthLayout";
+    ViewData["Title"] = SharedLocalizer["Title.Privacy"];
+}
+
+<h1>@SharedLocalizer["Title.Privacy"]</h1>
+
+<p>@SharedLocalizer["Privacy.Intro"]</p>
+
+<h2 class="h4 mt-4">@SharedLocalizer["Privacy.DataCollected"]</h2>
+<p>@SharedLocalizer["Privacy.DataCollectedText"]</p>
+
+<h2 class="h4 mt-4">@SharedLocalizer["Privacy.Purpose"]</h2>
+<p>@SharedLocalizer["Privacy.PurposeText"]</p>
+
+<h2 class="h4 mt-4">@SharedLocalizer["Privacy.Cookies"]</h2>
+<p>@SharedLocalizer["Privacy.CookiesText"]</p>
+
+<h2 class="h4 mt-4">@SharedLocalizer["Privacy.Contact"]</h2>
+<p>@SharedLocalizer["Privacy.ContactText"]</p>

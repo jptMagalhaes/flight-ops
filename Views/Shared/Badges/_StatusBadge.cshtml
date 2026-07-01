@@ -1,0 +1,5 @@
+@model FlightStatus
+
+<span class="status-badge status-badge-@Model.ToString().ToLowerInvariant()">
+    <span class="status-dot"></span>@SharedLocalizer[$"FlightStatus.{Model}"]
+</span>

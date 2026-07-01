@@ -1,0 +1,91 @@
+@model AirportDetailModel
+@using FlightOps.Helpers
+
+@{
+    AirportModel airport = Model.Airport;
+    ViewData["Title"] = SharedLocalizer["Title.AirportDetails", airport.IATA ?? ""];
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+    <h1 class="mb-0">@airport.IATA — @airport.Name</h1>
+    <div class="d-flex gap-2">
+        <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.BackToList"]</a>
+        <a asp-action="Edit" asp-route-id="@airport.Id" class="btn btn-primary">@SharedLocalizer["Btn.Edit"]</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">@SharedLocalizer["Section.AirportInfo"]</div>
+    <div class="card-body">
+        <dl class="row entity-details mb-0">
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.IATA"]</dt>
+            <dd class="col-sm-9 col-md-4">@airport.IATA</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Name"]</dt>
+            <dd class="col-sm-9 col-md-4">@airport.Name</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.City"]</dt>
+            <dd class="col-sm-9 col-md-4">@airport.City</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Country"]</dt>
+            <dd class="col-sm-9 col-md-4">@airport.Country</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Latitude"]</dt>
+            <dd class="col-sm-9 col-md-4">@NumberFormatHelper.Invariant(airport.Latitude)</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Longitude"]</dt>
+            <dd class="col-sm-9 col-md-4">@NumberFormatHelper.Invariant(airport.Longitude)</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.AircraftOnGround"] (@Model.AircraftOnGround.Count)</div>
+            <div class="card-body p-0">
+                @if (Model.AircraftOnGround.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">@SharedLocalizer["Empty.AircraftOnGround"]</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>@SharedLocalizer["Col.Registration"]</th>
+                                    <th>@SharedLocalizer["Col.HangarBay"]</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (AircraftModel aircraft in Model.AircraftOnGround)
+                                {
+                                    <tr>
+                                        <td>@aircraft.Registration</td>
+                                        <td>@aircraft.HangarBay</td>
+                                        <td>
+                                            <a asp-controller="Aircraft" asp-action="Details" asp-route-id="@aircraft.Id"
+                                               class="btn btn-outline-secondary btn-sm">@SharedLocalizer["Btn.Details"]</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.RecentFlights"]</div>
+            <div class="card-body p-0">
+                @if (Model.Flights.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">@SharedLocalizer["Empty.FlightHistory"]</p>
+                }
+                else
+                {
+                    @await Html.PartialAsync("~/Views/Flight/_FlightListPartial.cshtml", Model.Flights)
+                }
+            </div>
+        </div>
+    </div>
+</div>

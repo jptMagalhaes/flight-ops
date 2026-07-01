@@ -1,0 +1,123 @@
+@model IEnumerable<AircraftModel>
+@using FlightOps.Helpers
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.Aircrafts"];
+    List<AircraftModel> aircrafts = Model.ToList();
+    int aircraftTotal = aircrafts.Count;
+}
+
+@if (aircraftTotal == 0)
+{
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+        <h1 class="mb-0">@SharedLocalizer["Title.Aircrafts"]</h1>
+        @if (User.IsInRole("Operator"))
+        {
+            <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+        }
+    </div>
+    <div class="empty-state">
+        <div class="empty-state-icon"><i class="bi bi-airplane-engines"></i></div>
+        <div class="empty-state-title">@SharedLocalizer["Empty.Aircraft.Title"]</div>
+        <p class="empty-state-msg mb-0">@SharedLocalizer["Empty.Aircraft.Message"]</p>
+        @if (User.IsInRole("Operator"))
+        {
+            <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+        }
+    </div>
+}
+else
+{
+    <div data-fo-list-search data-fo-page-size="10">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+            <h1 class="mb-0 d-flex align-items-center gap-2 flex-wrap">
+                @SharedLocalizer["Title.Aircrafts"]
+                <span class="page-header-count" aria-label="@SharedLocalizer["Aircrafts.TotalCount", aircraftTotal]">@aircraftTotal</span>
+            </h1>
+            <div class="page-header-actions">
+                @await Html.PartialAsync("Lists/_ListSearchBar")
+                @if (User.IsInRole("Operator"))
+                {
+                    <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+                }
+            </div>
+        </div>
+        <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@SharedLocalizer["Col.Registration"]</th>
+                    <th>@SharedLocalizer["Col.Name"]</th>
+                    <th>@SharedLocalizer["Col.Model"]</th>
+                    <th>@SharedLocalizer["Col.Location"]</th>
+                    <th>@SharedLocalizer["Col.HangarBay"]</th>
+                    <th>@SharedLocalizer["Col.CruiseSpeed"]</th>
+                    <th class="text-end">@SharedLocalizer["Col.Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AircraftModel aircraft in aircrafts)
+                {
+                    <tr>
+                        <td><span class="report-list-route-primary">@aircraft.Registration</span></td>
+                        <td><span class="list-cell-primary">@aircraft.Name</span></td>
+                        <td><span class="list-cell-secondary">@aircraft.Model</span></td>
+                        <td>
+                            @if (aircraft.IsInFlight)
+                            {
+                                <span class="status-badge status-badge-inflight">
+                                    <span class="status-dot"></span>@SharedLocalizer["AircraftStatus.InFlight"]
+                                </span>
+                            }
+                            else
+                            {
+                                @await Html.PartialAsync("Lists/_ListAirportCell", new ListAirportCellModel
+                                {
+                                    Iata = aircraft.CurrentAirportIata,
+                                    Detail = aircraft.CurrentAirportName
+                                })
+                            }
+                        </td>
+                        <td><span class="list-cell-meta">@(aircraft.IsInFlight ? "—" : aircraft.HangarBay)</span></td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                            {
+                                Value = NumberFormatHelper.Invariant(aircraft.CruiseSpeedKmh),
+                                Unit = "km/h",
+                                Emphasis = true
+                            })
+                        </td>
+                        <td class="text-end">
+                            @await Html.PartialAsync("Lists/_ListRowActions", new ListRowActionsModel
+                            {
+                                Id = aircraft.Id,
+                                DeleteModalId = $"delAircraftModal-{aircraft.Id}"
+                            })
+
+                            <div class="modal fade" id="delAircraftModal-@aircraft.Id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-4">
+                                            <div class="modal-icon-box"><i class="bi bi-trash3"></i></div>
+                                            <div class="fw-bold fs-5 mb-1">@SharedLocalizer["Confirm.DeleteAircraft", aircraft.Name ?? ""]</div>
+                                            <p class="mb-0" style="color:var(--fo-muted);">@SharedLocalizer["Confirm.CannotUndo"]</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedLocalizer["Btn.Cancel"]</button>
+                                            <form asp-action="Delete" asp-route-id="@aircraft.Id" method="post" class="m-0">
+                                                <button type="submit" class="btn btn-danger">@SharedLocalizer["Btn.Delete"]</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        @await Html.PartialAsync("Lists/_ListPagination")
+        <p class="list-search-no-results d-none" data-fo-list-search-empty role="status">@SharedLocalizer["Search.NoResults"]</p>
+    </div>
+}

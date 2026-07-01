@@ -1,0 +1,60 @@
+@{
+    ViewData["Title"] = SharedLocalizer["Title.Simulation"];
+}
+
+<h1>@SharedLocalizer["Title.Simulation"]</h1>
+<p class="text-muted">@SharedLocalizer["Simulation.Instructions"]</p>
+
+<div class="row g-3">
+    <div class="col-12 col-lg-4">
+        <div class="simulation-panel">
+            <h2 class="h6 fw-semibold mb-3">@SharedLocalizer["Simulation.ActiveFlights"]</h2>
+            <div id="flightList" class="list-group simulation-flight-list"></div>
+            <p id="noFlightsMessage" class="text-muted small mb-0 d-none">@SharedLocalizer["Simulation.NoActiveFlights"]</p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-8">
+        <div id="cesiumContainer"></div>
+    </div>
+    <div class="col-12">
+        <div id="flightDetails" class="simulation-panel d-none">
+            <h2 class="h6 fw-semibold mb-3">@SharedLocalizer["Simulation.FlightDetails"]</h2>
+            <dl class="row small mb-0 simulation-details">
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Col.Aircraft"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailAircraft">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.Route"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailRoute">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Col.Departure"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailDeparture">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Col.Arrival"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailArrival">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.TimeRemaining"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailRemaining">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.Progress"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailProgress">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.FuelConsumed"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailFuelConsumed">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.FuelBurnRate"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailFuelRate">—</dd>
+                <dt class="col-sm-5 col-lg-2">@SharedLocalizer["Simulation.TotalFuel"].Value</dt>
+                <dd class="col-sm-7 col-lg-4" id="detailTotalFuel">—</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Widgets/widgets.css" />
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.119/Build/Cesium/Cesium.js"></script>
+    <script>
+        window.simulationConfig = {
+            activeFlightsUrl: '@Url.Action("GetActiveFlights", "Simulation")',
+            completeFlightUrl: '@Url.Action("CompleteFlight", "Simulation")',
+            labels: {
+                fuel: @Json.Serialize(SharedLocalizer["Label.Fuel"].Value),
+                perHour: '/h'
+            }
+        };
+    </script>
+    <script src="~/js/simulation.js" asp-append-version="true"></script>
+}

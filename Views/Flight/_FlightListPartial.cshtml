@@ -1,0 +1,49 @@
+@model IEnumerable<FlightModel>
+@using FlightOps.Helpers
+@using System.Globalization
+
+<div class="table-responsive">
+    <table class="table table-sm table-striped mb-0">
+        <thead>
+            <tr>
+                <th>@SharedLocalizer["Col.Origin"]</th>
+                <th>@SharedLocalizer["Col.Destination"]</th>
+                <th>@SharedLocalizer["Col.Departure"]</th>
+                <th>@SharedLocalizer["Col.Status"]</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (FlightModel flight in Model)
+            {
+                DateTime departureUtc = flight.DepartureTime.Kind == DateTimeKind.Unspecified
+                    ? DateTime.SpecifyKind(flight.DepartureTime, DateTimeKind.Utc)
+                    : flight.DepartureTime.ToUniversalTime();
+                <tr>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListAirportCell", new ListAirportCellModel
+                        {
+                            Iata = flight.Origin.IATA
+                        })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListAirportCell", new ListAirportCellModel
+                        {
+                            Iata = flight.Destination.IATA
+                        })
+                    </td>
+                    <td>
+                        <time data-fo-utc-datetime datetime="@departureUtc.ToString("o", CultureInfo.InvariantCulture)">
+                            @departureUtc.ToString("g")
+                        </time>
+                    </td>
+                    <td>@await Html.PartialAsync("Badges/_StatusBadge", flight.Status)</td>
+                    <td>
+                        <a asp-controller="Flight" asp-action="Details" asp-route-id="@flight.Id"
+                           class="btn btn-outline-secondary btn-sm">@SharedLocalizer["Btn.Details"]</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

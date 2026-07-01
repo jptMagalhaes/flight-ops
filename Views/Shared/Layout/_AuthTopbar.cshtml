@@ -1,0 +1,61 @@
+@using System.Globalization
+@{
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var culture = CultureInfo.CurrentUICulture.Name;
+    string utcTimeInitial = DateTime.UtcNow.ToString("HH:mm:ss", CultureInfo.InvariantCulture) + " UTC";
+    bool IsActive(string code) => culture.Equals(code, StringComparison.OrdinalIgnoreCase)
+        || (code == "en" && culture.StartsWith("en", StringComparison.OrdinalIgnoreCase));
+}
+<div class="auth-topbar">
+    <div class="auth-brand">
+        <img src="~/favicon-32.png" alt="" width="28" height="28" class="auth-brand-icon" asp-append-version="true" />
+        <span class="auth-brand-name">@SharedLocalizer["AppName"]</span>
+    </div>
+    <div class="auth-utils">
+        <span class="auth-utc-clock"
+              data-fo-utc-clock
+              aria-label="@SharedLocalizer["Nav.UtcTime"]"
+              title="@SharedLocalizer["Nav.UtcTime"]">
+            <span class="navbar-utc-live-dot" aria-hidden="true"></span>
+            <time data-fo-utc-time datetime="@DateTime.UtcNow.ToString("o")">@utcTimeInitial</time>
+        </span>
+        <div class="auth-lang-switcher" role="group" aria-label="@SharedLocalizer["Nav.Language"]">
+            @if (IsActive("en"))
+            {
+                <span class="auth-lang-btn is-active" aria-current="true">@SharedLocalizer["Lang.En"]</span>
+            }
+            else
+            {
+                <a class="auth-lang-btn"
+                   asp-controller="Home"
+                   asp-action="SetCulture"
+                   asp-route-culture="en"
+                   asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.En"]</a>
+            }
+            @if (IsActive("pt-PT"))
+            {
+                <span class="auth-lang-btn is-active" aria-current="true">@SharedLocalizer["Lang.Pt"]</span>
+            }
+            else
+            {
+                <a class="auth-lang-btn"
+                   asp-controller="Home"
+                   asp-action="SetCulture"
+                   asp-route-culture="pt-PT"
+                   asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.Pt"]</a>
+            }
+            @if (IsActive("de-DE"))
+            {
+                <span class="auth-lang-btn is-active" aria-current="true">@SharedLocalizer["Lang.De"]</span>
+            }
+            else
+            {
+                <a class="auth-lang-btn"
+                   asp-controller="Home"
+                   asp-action="SetCulture"
+                   asp-route-culture="de-DE"
+                   asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.De"]</a>
+            }
+        </div>
+    </div>
+</div>

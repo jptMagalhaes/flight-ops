@@ -1,0 +1,97 @@
+@model FlightModel
+@using FlightOps.Helpers
+@using System.Globalization
+
+@{
+    string routeTitle = $"{Model.Origin.IATA} → {Model.Destination.IATA}";
+    string routeSubtitle = $"{Model.Origin.City} → {Model.Destination.City} · {Model.Aircraft.Registration}";
+    ViewData["Title"] = SharedLocalizer["Title.FlightDetails", Model.Origin.IATA ?? "", Model.Destination.IATA ?? ""];
+    DateTime departureUtc = Model.DepartureTime.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(Model.DepartureTime, DateTimeKind.Utc)
+        : Model.DepartureTime.ToUniversalTime();
+    DateTime arrivalUtc = Model.ArrivalTime.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(Model.ArrivalTime, DateTimeKind.Utc)
+        : Model.ArrivalTime.ToUniversalTime();
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 page-header">
+    <div class="flight-route-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 gap-md-3">
+            <h1 class="flight-route-title mb-0">@routeTitle</h1>
+            @await Html.PartialAsync("Badges/_StatusBadge", Model.Status)
+        </div>
+        <p class="flight-route-subtitle mb-0">@routeSubtitle</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.BackToFlights"]</a>
+        <a asp-action="ReportDetail" asp-route-id="@Model.Id" class="btn btn-outline-secondary">@SharedLocalizer["Btn.ViewReport"]</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@SharedLocalizer["Btn.Edit"]</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.Route"]</div>
+            <div class="card-body">
+                <dl class="row entity-details mb-0">
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Origin"]</dt>
+                    <dd class="col-sm-7">
+                        <a asp-controller="Airport" asp-action="Details" asp-route-id="@Model.OriginId">
+                            @Model.Origin.IATA — @Model.Origin.Name
+                        </a>
+                    </dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Destination"]</dt>
+                    <dd class="col-sm-7">
+                        <a asp-controller="Airport" asp-action="Details" asp-route-id="@Model.DestinationId">
+                            @Model.Destination.IATA — @Model.Destination.Name
+                        </a>
+                    </dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Distance"]</dt>
+                    <dd class="col-sm-7">@NumberFormatHelper.Invariant(Model.Distance) km</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.Schedule"]</div>
+            <div class="card-body">
+                <dl class="row entity-details mb-0">
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Departure"]</dt>
+                    <dd class="col-sm-7">
+                        <time data-fo-utc-datetime datetime="@departureUtc.ToString("o", CultureInfo.InvariantCulture)">
+                            @departureUtc.ToString("g")
+                        </time>
+                    </dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Arrival"]</dt>
+                    <dd class="col-sm-7">
+                        <time data-fo-utc-datetime datetime="@arrivalUtc.ToString("o", CultureInfo.InvariantCulture)">
+                            @arrivalUtc.ToString("g")
+                        </time>
+                    </dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Fuel"]</dt>
+                    <dd class="col-sm-7">@NumberFormatHelper.Invariant(Model.Fuel)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">@SharedLocalizer["Col.Aircraft"]</div>
+    <div class="card-body">
+        <dl class="row entity-details mb-0">
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Registration"]</dt>
+            <dd class="col-sm-9 col-md-4">
+                <a asp-controller="Aircraft" asp-action="Details" asp-route-id="@Model.AircraftId">
+                    @Model.Aircraft.Registration
+                </a>
+            </dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Name"]</dt>
+            <dd class="col-sm-9 col-md-4">@Model.Aircraft.Name</dd>
+            <dt class="col-sm-3 col-md-2">@SharedLocalizer["Col.Model"]</dt>
+            <dd class="col-sm-9 col-md-4">@Model.Aircraft.Model</dd>
+        </dl>
+    </div>
+</div>

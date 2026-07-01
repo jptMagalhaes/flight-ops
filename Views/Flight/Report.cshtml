@@ -1,0 +1,110 @@
+@model IEnumerable<FlightReportRowModel>
+@using FlightOps.Helpers
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.FlightReport"];
+}
+
+<div data-fo-list-search data-fo-page-size="10">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 page-header">
+        <div>
+            <h1 class="mb-0">@SharedLocalizer["Title.FlightReport"]</h1>
+            <p class="text-muted mb-0 mt-2">@SharedLocalizer["Report.Summary"]</p>
+        </div>
+        <div class="page-header-actions">
+            @await Html.PartialAsync("Lists/_ListSearchBar")
+            <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.BackToFlights"]</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>@SharedLocalizer["Col.Route"]</th>
+                <th>@SharedLocalizer["Col.Aircraft"]</th>
+                <th>@SharedLocalizer["Col.Duration"]</th>
+                <th>@SharedLocalizer["Col.Distance"]</th>
+                <th>@SharedLocalizer["Col.Fuel"]</th>
+                <th>@SharedLocalizer["Col.AverageSpeed"]</th>
+                <th>@SharedLocalizer["Col.Departure"]</th>
+                <th>@SharedLocalizer["Col.Arrival"]</th>
+                <th>@SharedLocalizer["Col.Status"]</th>
+                <th class="text-end">@SharedLocalizer["Col.Actions"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (FlightReportRowModel row in Model)
+            {
+                FlightModel flight = row.Flight;
+                string durationValue = $"{row.Duration.Hours}h {row.Duration.Minutes}m";
+                <tr>
+                    <td>
+                        <div class="report-list-route">
+                            @await Html.PartialAsync("Badges/_IataRoute", new IataRouteModel
+                            {
+                                Origin = flight.Origin.IATA ?? "",
+                                Destination = flight.Destination.IATA ?? ""
+                            })
+                            <span class="report-list-route-secondary">@flight.Origin.City → @flight.Destination.City</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="report-list-route">
+                            <span class="report-list-route-primary">@flight.Aircraft.Registration</span>
+                            @if (!string.IsNullOrWhiteSpace(flight.Aircraft.Model))
+                            {
+                                <span class="report-list-route-secondary">@flight.Aircraft.Model</span>
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel { Value = durationValue })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                        {
+                            Value = NumberFormatHelper.Invariant(flight.Distance),
+                            Unit = "km"
+                        })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                        {
+                            Value = NumberFormatHelper.Invariant(flight.Fuel),
+                            Unit = "L"
+                        })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                        {
+                            Value = NumberFormatHelper.Invariant(row.AverageSpeedKmh),
+                            Unit = "km/h",
+                            Emphasis = true
+                        })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListDateTime", new ListDateTimeModel { Value = flight.DepartureTime })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Lists/_ListDateTime", new ListDateTimeModel { Value = flight.ArrivalTime })
+                    </td>
+                    <td>
+                        @await Html.PartialAsync("Badges/_StatusBadge", flight.Status)
+                    </td>
+                    <td class="text-end">
+                        @await Html.PartialAsync("Lists/_ListRowActions", new ListRowActionsModel
+                        {
+                            Id = flight.Id,
+                            DetailsAction = "ReportDetail",
+                            ShowEdit = false,
+                            ShowDelete = false
+                        })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+    @await Html.PartialAsync("Lists/_ListPagination")
+    <p class="list-search-no-results d-none" data-fo-list-search-empty role="status">@SharedLocalizer["Search.NoResults"]</p>
+</div>

@@ -1,0 +1,132 @@
+@model FlightReportDetailModel
+@using System.Globalization
+@using FlightOps.Helpers
+
+@{
+    FlightModel flight = Model.Flight;
+    ViewData["Title"] = SharedLocalizer["Title.FlightReportDetail", flight.Origin.IATA ?? "", flight.Destination.IATA ?? ""];
+    string routeTitle = $"{flight.Origin.IATA} → {flight.Destination.IATA}";
+    string routeSubtitle = $"{flight.Origin.Name} → {flight.Destination.Name} · {flight.Aircraft.Registration}";
+    string departureLabel = SharedLocalizer["Col.Departure"];
+    string arrivalLabel = SharedLocalizer["Col.Arrival"];
+    DateTime departureUtc = flight.DepartureTime.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(flight.DepartureTime, DateTimeKind.Utc)
+        : flight.DepartureTime.ToUniversalTime();
+    DateTime arrivalUtc = flight.ArrivalTime.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(flight.ArrivalTime, DateTimeKind.Utc)
+        : flight.ArrivalTime.ToUniversalTime();
+    string avgSpeedValue = $"{NumberFormatHelper.Invariant(Model.AverageSpeedKmh)} km/h";
+    string durationValue = $"{Model.Duration.Hours}h {Model.Duration.Minutes}m";
+    KpiCardModel durationCard = new()
+    {
+        Label = SharedLocalizer["Col.Duration"],
+        Value = durationValue,
+        Variant = "simple"
+    };
+    KpiCardModel fuelCard = new()
+    {
+        Label = SharedLocalizer["Col.TotalFuel"],
+        Value = NumberFormatHelper.Invariant(flight.Fuel),
+        Unit = "L",
+        Variant = "simple"
+    };
+    KpiCardModel distanceCard = new()
+    {
+        Label = SharedLocalizer["Col.Distance"],
+        Value = NumberFormatHelper.Invariant(flight.Distance),
+        Unit = "km",
+        Variant = "simple"
+    };
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 page-header">
+    <div class="flight-route-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 gap-md-3">
+            <h1 class="flight-route-title mb-0">@routeTitle</h1>
+            @await Html.PartialAsync("Badges/_StatusBadge", flight.Status)
+        </div>
+        <p class="flight-route-subtitle mb-0">@routeSubtitle</p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Report" class="btn btn-secondary">@SharedLocalizer["Btn.BackToReport"]</a>
+        <a asp-action="Details" asp-route-id="@flight.Id" class="btn btn-outline-secondary">@SharedLocalizer["Btn.FlightDetails"]</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        @await Html.PartialAsync("Kpi/_KpiCard", durationCard)
+    </div>
+    <div class="col-md-4">
+        @await Html.PartialAsync("Kpi/_KpiCard", fuelCard)
+    </div>
+    <div class="col-md-4">
+        @await Html.PartialAsync("Kpi/_KpiCard", distanceCard)
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">@SharedLocalizer["Section.ReportMetrics"]</div>
+    <div class="card-body p-0">
+        <dl class="report-metrics-list mb-0">
+            <div class="report-metrics-row report-metrics-row-split">
+                <div class="report-metrics-split-item">
+                    <dt>@SharedLocalizer["Col.Origin"]</dt>
+                    <dd>
+                        <a asp-controller="Airport" asp-action="Details" asp-route-id="@flight.OriginId" class="report-metrics-airport-link">
+                            <span class="report-metrics-airport-iata">@flight.Origin.IATA</span>
+                            <span class="report-metrics-airport-detail">@flight.Origin.City · @flight.Origin.Name</span>
+                        </a>
+                    </dd>
+                </div>
+                <div class="report-metrics-split-item report-metrics-split-item-end">
+                    <dt>@SharedLocalizer["Col.Destination"]</dt>
+                    <dd>
+                        <a asp-controller="Airport" asp-action="Details" asp-route-id="@flight.DestinationId" class="report-metrics-airport-link">
+                            <span class="report-metrics-airport-iata">@flight.Destination.IATA</span>
+                            <span class="report-metrics-airport-detail">@flight.Destination.City · @flight.Destination.Name</span>
+                        </a>
+                    </dd>
+                </div>
+            </div>
+            <div class="report-metrics-row report-metrics-row-split">
+                <div class="report-metrics-split-item">
+                    <dt>@departureLabel</dt>
+                    <dd>
+                        <time data-fo-utc-datetime datetime="@departureUtc.ToString("o", CultureInfo.InvariantCulture)">
+                            @departureUtc.ToString("d MMM yyyy · HH:mm", CultureInfo.CurrentUICulture)
+                        </time>
+                    </dd>
+                </div>
+                <div class="report-metrics-split-item report-metrics-split-item-end">
+                    <dt>@arrivalLabel</dt>
+                    <dd>
+                        <time data-fo-utc-datetime datetime="@arrivalUtc.ToString("o", CultureInfo.InvariantCulture)">
+                            @arrivalUtc.ToString("d MMM yyyy · HH:mm", CultureInfo.CurrentUICulture)
+                        </time>
+                    </dd>
+                </div>
+            </div>
+            <div class="report-metrics-row report-metrics-row-split">
+                <div class="report-metrics-split-item">
+                    <dt>@SharedLocalizer["Col.Aircraft"]</dt>
+                    <dd>
+                        <a asp-controller="Aircraft" asp-action="Details" asp-route-id="@flight.AircraftId">@flight.Aircraft.Registration</a>
+                        @if (!string.IsNullOrWhiteSpace(flight.Aircraft.Model))
+                        {
+                            <span class="report-metrics-airport-detail d-block">@flight.Aircraft.Model</span>
+                        }
+                    </dd>
+                </div>
+                <div class="report-metrics-split-item report-metrics-split-item-end">
+                    <dt>@SharedLocalizer["Col.AverageSpeed"]</dt>
+                    <dd>@avgSpeedValue</dd>
+                </div>
+            </div>
+            <div class="report-metrics-row">
+                <dt>@SharedLocalizer["Col.FuelPer100Km"]</dt>
+                <dd>@NumberFormatHelper.Invariant(Model.FuelPer100Km)</dd>
+            </div>
+        </dl>
+    </div>
+</div>

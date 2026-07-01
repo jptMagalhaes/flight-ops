@@ -1,0 +1,12 @@
+@model EntityFormFooterModel
+
+<div class="entity-form-footer">
+    <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.Cancel"]</a>
+    @if (Model.ShowSubmit)
+    {
+        <button type="submit" class="btn btn-accent-outline">
+            <i class="bi bi-floppy" aria-hidden="true"></i>
+            @Model.SubmitLabel
+        </button>
+    }
+</div>

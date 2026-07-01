@@ -1,0 +1,7 @@
+@model IataRouteModel
+
+<span class="iata-route">
+    @await Html.PartialAsync("Badges/_IataBadge", Model.Origin)
+    <span class="iata-route-sep" aria-hidden="true">→</span>
+    @await Html.PartialAsync("Badges/_IataBadge", Model.Destination)
+</span>

@@ -1,0 +1,9 @@
+@model ListAirportCellModel
+
+<div class="list-airport-cell">
+    @await Html.PartialAsync("Badges/_IataBadge", Model.Iata)
+    @if (!string.IsNullOrWhiteSpace(Model.Detail))
+    {
+        <span class="list-airport-cell-detail">@Model.Detail</span>
+    }
+</div>

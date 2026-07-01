@@ -1,0 +1,81 @@
+@model AircraftDetailModel
+@using FlightOps.Helpers
+
+@{
+    AircraftModel aircraft = Model.Aircraft;
+    ViewData["Title"] = SharedLocalizer["Title.AircraftDetails", aircraft.Registration ?? aircraft.Name ?? ""];
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+    <h1 class="mb-0">@SharedLocalizer["Title.AircraftDetails", aircraft.Registration ?? ""]</h1>
+    <div class="d-flex gap-2">
+        <a asp-action="Index" class="btn btn-secondary">@SharedLocalizer["Btn.BackToList"]</a>
+        <a asp-action="Edit" asp-route-id="@aircraft.Id" class="btn btn-primary">@SharedLocalizer["Btn.Edit"]</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.AircraftInfo"]</div>
+            <div class="card-body">
+                <dl class="row entity-details mb-0">
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Registration"]</dt>
+                    <dd class="col-sm-7">@aircraft.Registration</dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Name"]</dt>
+                    <dd class="col-sm-7">@aircraft.Name</dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Model"]</dt>
+                    <dd class="col-sm-7">@aircraft.Model</dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.Location"]</dt>
+                    <dd class="col-sm-7">
+                        @if (aircraft.IsInFlight)
+                        {
+                            <span class="badge text-bg-info">@SharedLocalizer["AircraftStatus.InFlight"]</span>
+                        }
+                        else if (!string.IsNullOrWhiteSpace(aircraft.CurrentAirportIata))
+                        {
+                            <a asp-controller="Airport" asp-action="Details" asp-route-id="@aircraft.CurrentAirportId">
+                                @aircraft.CurrentAirportIata
+                            </a>
+                            @if (!string.IsNullOrWhiteSpace(aircraft.CurrentAirportName))
+                            {
+                                <span class="text-muted small d-block">@aircraft.CurrentAirportName</span>
+                            }
+                        }
+                    </dd>
+                    <dt class="col-sm-5">@SharedLocalizer["Col.HangarBay"]</dt>
+                    <dd class="col-sm-7">@(aircraft.IsInFlight ? "—" : aircraft.HangarBay)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header">@SharedLocalizer["Section.Performance"]</div>
+            <div class="card-body">
+                <dl class="row entity-details mb-0">
+                    <dt class="col-sm-5">@SharedLocalizer["Col.CruiseSpeed"]</dt>
+                    <dd class="col-sm-7">@NumberFormatHelper.Invariant(aircraft.CruiseSpeedKmh) km/h</dd>
+                    <dt class="col-sm-5">@SharedLocalizer["TakeOffEffort"]</dt>
+                    <dd class="col-sm-7">@aircraft.TakeOffEffort</dd>
+                    <dt class="col-sm-5">@SharedLocalizer["FuelConsumptionPerKm"]</dt>
+                    <dd class="col-sm-7">@NumberFormatHelper.Invariant(aircraft.FuelConsumptionPerKm)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">@SharedLocalizer["Section.FlightHistory"]</div>
+    <div class="card-body p-0">
+        @if (Model.Flights.Count == 0)
+        {
+            <p class="text-muted p-3 mb-0">@SharedLocalizer["Empty.FlightHistory"]</p>
+        }
+        else
+        {
+            @await Html.PartialAsync("~/Views/Flight/_FlightListPartial.cshtml", Model.Flights)
+        }
+    </div>
+</div>

@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - run: dotnet restore
+      - run: dotnet build --no-restore -c Release
+      # E2E tests (FlightOps.E2E) are excluded here — they need the app running and Playwright
+      # browsers installed; run them manually or in a dedicated job with PLAYWRIGHT_BASE_URL set.
+      - run: dotnet test --no-build -c Release --filter "Category!=E2E" --verbosity normal

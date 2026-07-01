@@ -1,0 +1,144 @@
+﻿@model OperationsDashboardModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.Home"];
+}
+
+<div class="dashboard-header mb-4">
+    <h1 class="dashboard-title">@SharedLocalizer["Home.Dashboard.Title"]</h1>
+    <p class="dashboard-subtitle mb-0">@SharedLocalizer["Home.Dashboard.Subtitle"]</p>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-12 col-sm-6 col-xl-3">
+        @await Html.PartialAsync("Kpi/_KpiCard", new KpiCardModel
+        {
+            Label = SharedLocalizer["Home.Kpi.ActiveFlights"],
+            Value = Model.ActiveFlights.ToString(),
+            Subtitle = SharedLocalizer["Home.Kpi.ActiveFlights.Sub"],
+            IconClass = "bi-airplane",
+            Variant = "accent"
+        })
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        @await Html.PartialAsync("Kpi/_KpiCard", new KpiCardModel
+        {
+            Label = SharedLocalizer["Home.Kpi.FleetSplit"],
+            Value = $"{Model.AircraftOnGround} / {Model.AircraftAirborne}",
+            Subtitle = SharedLocalizer["Home.Kpi.FleetSplit.Sub"],
+            IconClass = "bi-airplane-engines",
+            Variant = "neutral"
+        })
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        @await Html.PartialAsync("Kpi/_KpiCard", new KpiCardModel
+        {
+            Label = SharedLocalizer["Home.Kpi.UpcomingDepartures"],
+            Value = Model.UpcomingDeparturesCount.ToString(),
+            Subtitle = SharedLocalizer["Home.Kpi.UpcomingDepartures.Sub"],
+            IconClass = "bi-clock",
+            Variant = "info"
+        })
+    </div>
+    <div class="col-12 col-sm-6 col-xl-3">
+        @await Html.PartialAsync("Kpi/_KpiCard", new KpiCardModel
+        {
+            Label = SharedLocalizer["Home.Kpi.CancelledToday"],
+            Value = Model.CancelledTodayCount.ToString(),
+            Subtitle = SharedLocalizer["Home.Kpi.CancelledToday.Sub"],
+            IconClass = "bi-x-circle",
+            Variant = "danger"
+        })
+    </div>
+</div>
+
+<div class="row g-3 align-items-start">
+    <div class="col-12 col-lg-6">
+        <section class="dashboard-panel dashboard-panel-compact">
+            <div class="dashboard-panel-header">
+                <h2 class="dashboard-panel-title mb-0">@SharedLocalizer["Home.Panel.NextDepartures"]</h2>
+                <a asp-controller="Flight" asp-action="Index" class="dashboard-view-all">
+                    @SharedLocalizer["Home.ViewAll"] <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            @if (!Model.NextDepartures.Any())
+            {
+                <p class="dashboard-empty mb-0">@SharedLocalizer["Home.Empty.NextDepartures"]</p>
+            }
+            else
+            {
+                <div class="dashboard-departure-list">
+                    @foreach (DashboardDepartureModel departure in Model.NextDepartures)
+                    {
+                        DateTime departureUtc = departure.DepartureTime.Kind == DateTimeKind.Unspecified
+                            ? DateTime.SpecifyKind(departure.DepartureTime, DateTimeKind.Utc)
+                            : departure.DepartureTime.ToUniversalTime();
+                        <a asp-controller="Flight" asp-action="Details" asp-route-id="@departure.FlightId"
+                           class="dashboard-departure-row">
+                            <time class="dashboard-departure-time list-datetime" data-fo-utc-datetime datetime="@departureUtc.ToString("o", CultureInfo.InvariantCulture)">
+                                <span class="list-datetime-primary" data-fo-datetime-primary>@departureUtc.ToString("HH:mm", CultureInfo.CurrentUICulture)</span>
+                                <span class="list-datetime-secondary" data-fo-datetime-secondary>@departureUtc.ToString("d MMM yyyy", CultureInfo.CurrentUICulture)</span>
+                            </time>
+                            <span class="dashboard-departure-route">@departure.OriginIata → @departure.DestinationIata</span>
+                            <span class="dashboard-departure-aircraft">@departure.Registration</span>
+                            <span class="dashboard-departure-status">
+                                @await Html.PartialAsync("Badges/_StatusBadge", departure.Status)
+                            </span>
+                        </a>
+                    }
+                </div>
+            }
+        </section>
+    </div>
+    <div class="col-12 col-lg-6">
+        <section class="dashboard-panel h-100">
+            <div class="dashboard-panel-header">
+                <h2 class="dashboard-panel-title mb-0">@SharedLocalizer["Home.Panel.FleetStatus"]</h2>
+                <a asp-controller="Aircraft" asp-action="Index" class="dashboard-view-all">
+                    @SharedLocalizer["Home.ViewAll"] <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            @if (!Model.FleetStatus.Any())
+            {
+                <p class="dashboard-empty mb-0">@SharedLocalizer["Home.Empty.FleetStatus"]</p>
+            }
+            else
+            {
+                <div class="dashboard-fleet-list">
+                    @foreach (DashboardFleetItemModel aircraft in Model.FleetStatus)
+                    {
+                        <a asp-controller="Aircraft" asp-action="Details" asp-route-id="@aircraft.AircraftId"
+                           class="dashboard-fleet-row">
+                            <span class="dashboard-fleet-dot @(aircraft.IsInFlight ? "is-inflight" : "is-grounded")"
+                                  aria-hidden="true"></span>
+                            <span class="dashboard-fleet-main">
+                                <span class="dashboard-fleet-registration">@aircraft.Registration</span>
+                                @if (!string.IsNullOrWhiteSpace(aircraft.Model))
+                                {
+                                    <span class="dashboard-fleet-model">@aircraft.Model</span>
+                                }
+                            </span>
+                            <span class="dashboard-fleet-location @(aircraft.IsInFlight ? "is-inflight" : "is-grounded")">
+                                @(aircraft.IsInFlight
+                                    ? SharedLocalizer["AircraftStatus.InFlight"]
+                                    : aircraft.LocationIata ?? "—")
+                            </span>
+                        </a>
+                    }
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<div class="dashboard-quick-links mt-4">
+    <a asp-controller="Simulation" asp-action="Index" class="dashboard-quick-link">
+        <i class="bi bi-globe-americas" aria-hidden="true"></i>
+        @SharedLocalizer["Home.QuickLink.Simulation"]
+    </a>
+    <a asp-controller="Flight" asp-action="Report" class="dashboard-quick-link">
+        <i class="bi bi-bar-chart-line" aria-hidden="true"></i>
+        @SharedLocalizer["Home.QuickLink.Reports"]
+    </a>
+</div>

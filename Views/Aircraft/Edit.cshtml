@@ -1,0 +1,97 @@
+@model AircraftModel
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.EditAircraft"];
+}
+
+@await Html.PartialAsync("Forms/_EntityFormOpen", SharedLocalizer["Title.EditAircraft"].Value)
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (Model.IsInFlight)
+    {
+        <div class="alert alert-info mb-3">@SharedLocalizer["AircraftStatus.InFlight"]</div>
+    }
+
+    <section class="entity-form-section" aria-labelledby="aircraft-ident-heading">
+        <h2 id="aircraft-ident-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.AircraftInfo"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="Registration" class="form-label entity-form-label-required"></label>
+                <input asp-for="Registration" class="form-control" />
+                <span asp-validation-for="Registration" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="Name" class="form-label entity-form-label-required"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Model" class="form-label entity-form-label-required"></label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+            @if (!Model.IsInFlight)
+            {
+                <div class="col-12 col-md-6">
+                    <label asp-for="CurrentAirportId" class="form-label entity-form-label-required">
+                        @SharedLocalizer["Label.BaseAirport"]
+                    </label>
+                    <select asp-for="CurrentAirportId" class="form-select" asp-items="Model.AirportOptions"></select>
+                    <span asp-validation-for="CurrentAirportId" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6">
+                    <label asp-for="HangarBay" class="form-label">
+                        @SharedLocalizer["Col.HangarBay"]
+                        <span class="entity-form-optional">@SharedLocalizer["Label.Optional"]</span>
+                    </label>
+                    <input asp-for="HangarBay" class="form-control" placeholder="T1-H12" />
+                    <span asp-validation-for="HangarBay" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="col-12">
+                    <label class="form-label">@SharedLocalizer["Col.Location"]</label>
+                    <p class="entity-form-readonly mb-0">@SharedLocalizer["AircraftStatus.InFlight"]</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="aircraft-perf-heading">
+        <h2 id="aircraft-perf-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Performance"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <label asp-for="TakeOffEffort" class="form-label entity-form-label-required"></label>
+                <input asp-for="TakeOffEffort" class="form-control" />
+                <span asp-validation-for="TakeOffEffort" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-4">
+                <label asp-for="FuelConsumptionPerKm" class="form-label entity-form-label-required"></label>
+                <input asp-for="FuelConsumptionPerKm" class="form-control" />
+                <span asp-validation-for="FuelConsumptionPerKm" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-4">
+                <label asp-for="CruiseSpeedKmh" class="form-label entity-form-label-required"></label>
+                <input asp-for="CruiseSpeedKmh" class="form-control" />
+                <span asp-validation-for="CruiseSpeedKmh" class="text-danger"></span>
+            </div>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("Forms/_EntityFormFooter", new EntityFormFooterModel
+    {
+        SubmitLabel = SharedLocalizer["Btn.Save"].Value
+    })
+</form>
+@await Html.PartialAsync("Forms/_EntityFormClose")
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("Layout/_ValidationScriptsPartial"); }
+}

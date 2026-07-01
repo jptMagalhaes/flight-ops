@@ -1,0 +1,103 @@
+@model FlightModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.CreateFlight"];
+}
+
+@await Html.PartialAsync("Forms/_EntityFormOpen", SharedLocalizer["Title.CreateFlight"].Value)
+<form asp-action="Create" method="post" data-fo-flight-create>
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <section class="entity-form-section" aria-labelledby="flight-route-heading">
+        <h2 id="flight-route-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Route"]
+        </h2>
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-5">
+                <label asp-for="OriginId" class="form-label entity-form-label-required"></label>
+                <select asp-for="OriginId" asp-items="ViewBag.OriginId" class="form-select" data-fo-flight-origin></select>
+                <span asp-validation-for="OriginId" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-2">
+                <div class="route-icon" aria-hidden="true">
+                    <i class="bi bi-airplane-fill"></i>
+                </div>
+            </div>
+            <div class="col-12 col-md-5">
+                <label asp-for="DestinationId" class="form-label entity-form-label-required"></label>
+                <select asp-for="DestinationId" asp-items="ViewBag.DestinationId" class="form-select" data-fo-flight-destination></select>
+                <span asp-validation-for="DestinationId" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="AircraftId" class="form-label entity-form-label-required"></label>
+                <select asp-for="AircraftId" asp-items="ViewBag.AircraftId" class="form-select" data-fo-flight-aircraft></select>
+                <span asp-validation-for="AircraftId" class="text-danger"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="flight-schedule-heading">
+        <h2 id="flight-schedule-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Schedule"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="DepartureTime" class="form-label entity-form-label-required"></label>
+                <input asp-for="DepartureTime" type="datetime-local" class="form-control" data-fo-flight-departure
+                       value="@Model.DepartureTime.ToString("yyyy-MM-ddTHH:mm")" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="Status" class="form-label entity-form-label-required"></label>
+                <select asp-for="Status" asp-items="ViewBag.Status" class="form-select"></select>
+            </div>
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="flight-calc-heading">
+        <h2 id="flight-calc-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Calculated"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.DistanceKm"]</label>
+                <div class="field-calculated">
+                    <span data-fo-calc-distance aria-live="polite">—</span>
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.Fuel"]</label>
+                <div class="field-calculated">
+                    <span data-fo-calc-fuel aria-live="polite">—</span>
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.ArrivalTime"]</label>
+                <div class="field-calculated">
+                    <span data-fo-calc-arrival aria-live="polite">—</span>
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("Forms/_EntityFormFooter", new EntityFormFooterModel
+    {
+        SubmitLabel = SharedLocalizer["Btn.Create"].Value
+    })
+</form>
+@await Html.PartialAsync("Forms/_EntityFormClose")
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("Layout/_ValidationScriptsPartial"); }
+    <script>
+        window.flightCreateConfig = {
+            calculateUrl: @Json.Serialize(Url.Action("CalculatePreview", "Flight")),
+            locale: @Json.Serialize(CultureInfo.CurrentUICulture.Name)
+        };
+    </script>
+    <script src="~/js/flight-create.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,65 @@
+namespace FlightOps.Data.Seed;
+
+public sealed record AirportSeedRecord(
+    string Iata,
+    string Name,
+    string City,
+    string Country,
+    double Latitude,
+    double Longitude);
+
+public static class AirportSeedData
+{
+    public static IReadOnlyList<AirportSeedRecord> All { get; } =
+    [
+        new("LIS", "Humberto Delgado", "Lisbon", "Portugal", 38.7742, -9.1342),
+        new("OPO", "Francisco Sá Carneiro", "Porto", "Portugal", 41.2481, -8.6814),
+        new("FAO", "Gago Coutinho", "Faro", "Portugal", 37.0144, -7.9659),
+        new("MAD", "Adolfo Suárez Madrid–Barajas", "Madrid", "Spain", 40.4983, -3.5676),
+        new("BCN", "Josep Tarradellas Barcelona–El Prat", "Barcelona", "Spain", 41.2974, 2.0833),
+        new("LHR", "Heathrow", "London", "United Kingdom", 51.4700, -0.4543),
+        new("LGW", "Gatwick", "London", "United Kingdom", 51.1537, -0.1821),
+        new("CDG", "Charles de Gaulle", "Paris", "France", 49.0097, 2.5479),
+        new("ORY", "Orly", "Paris", "France", 48.7262, 2.3652),
+        new("FRA", "Frankfurt", "Frankfurt", "Germany", 50.0379, 8.5622),
+        new("MUC", "Munich", "Munich", "Germany", 48.3538, 11.7861),
+        new("AMS", "Schiphol", "Amsterdam", "Netherlands", 52.3105, 4.7683),
+        new("BRU", "Brussels", "Brussels", "Belgium", 50.9014, 4.4844),
+        new("ZRH", "Zurich", "Zurich", "Switzerland", 47.4647, 8.5492),
+        new("VIE", "Vienna", "Vienna", "Austria", 48.1103, 16.5697),
+        new("FCO", "Leonardo da Vinci–Fiumicino", "Rome", "Italy", 41.8003, 12.2389),
+        new("MXP", "Malpensa", "Milan", "Italy", 45.6306, 8.7281),
+        new("ATH", "Eleftherios Venizelos", "Athens", "Greece", 37.9364, 23.9445),
+        new("IST", "Istanbul", "Istanbul", "Turkey", 41.2753, 28.7519),
+        new("DUB", "Dublin", "Dublin", "Ireland", 53.4264, -6.2499),
+        new("CPH", "Copenhagen", "Copenhagen", "Denmark", 55.6180, 12.6560),
+        new("ARN", "Arlanda", "Stockholm", "Sweden", 59.6519, 17.9186),
+        new("OSL", "Gardermoen", "Oslo", "Norway", 60.1939, 11.1004),
+        new("HEL", "Helsinki–Vantaa", "Helsinki", "Finland", 60.3172, 24.9633),
+        new("WAW", "Chopin", "Warsaw", "Poland", 52.1657, 20.9671),
+        new("PRG", "Václav Havel", "Prague", "Czech Republic", 50.1008, 14.2600),
+        new("BUD", "Ferenc Liszt", "Budapest", "Hungary", 47.4298, 19.2611),
+        new("JFK", "John F. Kennedy", "New York", "United States", 40.6413, -73.7781),
+        new("LAX", "Los Angeles", "Los Angeles", "United States", 33.9416, -118.4085),
+        new("ORD", "O'Hare", "Chicago", "United States", 41.9742, -87.9073),
+        new("MIA", "Miami", "Miami", "United States", 25.7959, -80.2870),
+        new("YYZ", "Pearson", "Toronto", "Canada", 43.6777, -79.6248),
+        new("GRU", "Guarulhos", "São Paulo", "Brazil", -23.4356, -46.4731),
+        new("GIG", "Galeão", "Rio de Janeiro", "Brazil", -22.8090, -43.2506),
+        new("EZE", "Ezeiza", "Buenos Aires", "Argentina", -34.8222, -58.5358),
+        new("DXB", "Dubai", "Dubai", "United Arab Emirates", 25.2532, 55.3657),
+        new("DOH", "Hamad", "Doha", "Qatar", 25.2609, 51.6138),
+        new("SIN", "Changi", "Singapore", "Singapore", 1.3644, 103.9915),
+        new("HKG", "Hong Kong", "Hong Kong", "Hong Kong", 22.3080, 113.9185),
+        new("NRT", "Narita", "Tokyo", "Japan", 35.7720, 140.3929),
+        new("HND", "Haneda", "Tokyo", "Japan", 35.5494, 139.7798),
+        new("ICN", "Incheon", "Seoul", "South Korea", 37.4602, 126.4407),
+        new("PEK", "Capital", "Beijing", "China", 40.0799, 116.6031),
+        new("PVG", "Pudong", "Shanghai", "China", 31.1443, 121.8083),
+        new("DEL", "Indira Gandhi", "New Delhi", "India", 28.5562, 77.1000),
+        new("SYD", "Kingsford Smith", "Sydney", "Australia", -33.9399, 151.1753),
+        new("MEL", "Melbourne", "Melbourne", "Australia", -37.6733, 144.8430),
+        new("JNB", "O. R. Tambo", "Johannesburg", "South Africa", -26.1367, 28.2411),
+        new("CAI", "Cairo", "Cairo", "Egypt", 30.1219, 31.4056)
+    ];
+}

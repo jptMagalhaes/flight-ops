@@ -1,0 +1,91 @@
+@using System.Globalization
+@{
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var showUserMenu = ViewData["ShowUserMenu"] as bool? ?? true;
+    var culture = CultureInfo.CurrentUICulture.Name;
+    string utcTimeInitial = DateTime.UtcNow.ToString("HH:mm:ss", CultureInfo.InvariantCulture) + " UTC";
+    bool IsActive(string code) => culture.Equals(code, StringComparison.OrdinalIgnoreCase)
+        || (code == "en" && culture.StartsWith("en", StringComparison.OrdinalIgnoreCase));
+}
+<ul class="navbar-nav navbar-nav-utils align-items-sm-center flex-row gap-sm-2">
+    <li class="nav-item">
+        <span class="navbar-utc-clock"
+              data-fo-utc-clock
+              aria-label="@SharedLocalizer["Nav.UtcTime"]"
+              title="@SharedLocalizer["Nav.UtcTime"]">
+            <span class="navbar-utc-live-dot" aria-hidden="true"></span>
+            <time data-fo-utc-time datetime="@DateTime.UtcNow.ToString("o")">@utcTimeInitial</time>
+        </span>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-globe2"></i> @SharedLocalizer["Nav.Language"]
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+                @if (IsActive("en"))
+                {
+                    <span class="dropdown-item active" aria-current="true">@SharedLocalizer["Lang.En"]</span>
+                }
+                else
+                {
+                    <a class="dropdown-item"
+                       asp-controller="Home"
+                       asp-action="SetCulture"
+                       asp-route-culture="en"
+                       asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.En"]</a>
+                }
+            </li>
+            <li>
+                @if (IsActive("pt-PT"))
+                {
+                    <span class="dropdown-item active" aria-current="true">@SharedLocalizer["Lang.Pt"]</span>
+                }
+                else
+                {
+                    <a class="dropdown-item"
+                       asp-controller="Home"
+                       asp-action="SetCulture"
+                       asp-route-culture="pt-PT"
+                       asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.Pt"]</a>
+                }
+            </li>
+            <li>
+                @if (IsActive("de-DE"))
+                {
+                    <span class="dropdown-item active" aria-current="true">@SharedLocalizer["Lang.De"]</span>
+                }
+                else
+                {
+                    <a class="dropdown-item"
+                       asp-controller="Home"
+                       asp-action="SetCulture"
+                       asp-route-culture="de-DE"
+                       asp-route-returnUrl="@returnUrl">@SharedLocalizer["Lang.De"]</a>
+                }
+            </li>
+        </ul>
+    </li>
+    @if (showUserMenu)
+    {
+        <li class="nav-item dropdown">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i> @User.Identity.Name
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="px-3 py-1">
+                            <button type="submit" class="dropdown-item">@SharedLocalizer["Nav.Logout"]</button>
+                        </form>
+                    </li>
+                </ul>
+            }
+            else
+            {
+                <a class="nav-link" asp-controller="Account" asp-action="Login">@SharedLocalizer["Nav.Login"]</a>
+            }
+        </li>
+    }
+</ul>

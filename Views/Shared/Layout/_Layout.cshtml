@@ -1,0 +1,77 @@
+﻿@using System.Globalization
+@{
+    var culture = CultureInfo.CurrentUICulture.Name;
+    var lang = culture.StartsWith("pt", StringComparison.OrdinalIgnoreCase) ? "pt"
+        : culture.StartsWith("de", StringComparison.OrdinalIgnoreCase) ? "de" : "en";
+}
+<!DOCTYPE html>
+<html lang="@lang" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @SharedLocalizer["AppName"]</title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32.png" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FlightOps.styles.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark app-navbar mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <img src="~/favicon-32.png" alt="" width="24" height="24" class="navbar-brand-icon" asp-append-version="true" />
+                    @SharedLocalizer["AppName"]
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarMain">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Airport" asp-action="Index">@SharedLocalizer["Nav.Airports"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Aircraft" asp-action="Index">@SharedLocalizer["Nav.Aircrafts"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Flight" asp-action="Index">@SharedLocalizer["Nav.Flights"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Flight" asp-action="Report">@SharedLocalizer["Nav.Report"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Simulation" asp-action="Index">@SharedLocalizer["Nav.Simulation"]</a>
+                        </li>
+                    </ul>
+                    @await Html.PartialAsync("Layout/_NavbarUtils")
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container flex-grow-1 pb-4" role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top footer text-muted app-footer">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
+            <span>&copy; 2026 - @SharedLocalizer["AppName"].Value - @SharedLocalizer["Footer.Copyright"].Value</span>
+            <a asp-controller="Home" asp-action="Privacy">@SharedLocalizer["Footer.Privacy"].Value</a>
+        </div>
+    </footer>
+
+    @await Html.PartialAsync("Layout/_ToastStack")
+
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

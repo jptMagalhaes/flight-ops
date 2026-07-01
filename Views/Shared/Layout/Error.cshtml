@@ -1,0 +1,18 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = SharedLocalizer["Title.Error"];
+}
+
+<h1 class="text-danger">@SharedLocalizer["Error.PageTitle"]</h1>
+<h2 class="text-danger">@SharedLocalizer["Error.Message"]</h2>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>@SharedLocalizer["Error.RequestId"]</strong> <code>@Model.RequestId</code>
+    </p>
+}
+
+<h3>@SharedLocalizer["Error.DevModeTitle"]</h3>
+<p>@SharedLocalizer["Error.DevModeText1"]</p>
+<p>@SharedLocalizer["Error.DevModeText2"]</p>

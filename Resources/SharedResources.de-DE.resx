@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Aircraft" xml:space="preserve">
+    <value>Flugzeug</value>
+  </data>
+  <data name="Alert.EditBlocked" xml:space="preserve">
+    <value>Dieser Flug kann nicht bearbeitet werden, da der Status {0} ist.</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>FlightOps</value>
+  </data>
+  <data name="ArrivalTime" xml:space="preserve">
+    <value>Ankunftszeit</value>
+  </data>
+  <data name="Btn.BackToFlights" xml:space="preserve">
+    <value>Zurück zu Flügen</value>
+  </data>
+  <data name="Btn.BackToList" xml:space="preserve">
+    <value>Zurück zur Liste</value>
+  </data>
+  <data name="Btn.Cancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Btn.BackToHome" xml:space="preserve">
+    <value>Zurück zur Startseite</value>
+  </data>
+  <data name="Btn.Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Btn.CreateNew" xml:space="preserve">
+    <value>Neu erstellen</value>
+  </data>
+  <data name="Btn.Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Btn.Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Btn.FlightDetails" xml:space="preserve">
+    <value>Flugdetails</value>
+  </data>
+  <data name="Btn.ViewReport" xml:space="preserve">
+    <value>Bericht anzeigen</value>
+  </data>
+  <data name="Btn.BackToReport" xml:space="preserve">
+    <value>Zurück zum Bericht</value>
+  </data>
+  <data name="Btn.Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="Btn.Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Btn.StartSimulation" xml:space="preserve">
+    <value>Simulation starten</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Stadt</value>
+  </data>
+  <data name="Col.Actions" xml:space="preserve">
+    <value>Aktionen</value>
+  </data>
+  <data name="Col.Arrival" xml:space="preserve">
+    <value>Ankunft</value>
+  </data>
+  <data name="Col.City" xml:space="preserve">
+    <value>Stadt</value>
+  </data>
+  <data name="Col.Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="Col.CruiseSpeed" xml:space="preserve">
+    <value>Reisegeschwindigkeit (km/h)</value>
+  </data>
+  <data name="Col.Departure" xml:space="preserve">
+    <value>Abflug</value>
+  </data>
+  <data name="Col.Destination" xml:space="preserve">
+    <value>Ankunft</value>
+  </data>
+  <data name="Col.Distance" xml:space="preserve">
+    <value>Entfernung (km)</value>
+  </data>
+  <data name="Col.Fuel" xml:space="preserve">
+    <value>Kraftstoff</value>
+  </data>
+  <data name="Col.TotalFuel" xml:space="preserve">
+    <value>Gesamtkraftstoff</value>
+  </data>
+  <data name="Col.Duration" xml:space="preserve">
+    <value>Dauer</value>
+  </data>
+  <data name="Col.FuelPer100Km" xml:space="preserve">
+    <value>Kraftstoff / 100 km</value>
+  </data>
+  <data name="Col.AverageSpeed" xml:space="preserve">
+    <value>Ø-Geschwindigkeit</value>
+  </data>
+  <data name="Col.FuelPerKm" xml:space="preserve">
+    <value>Kraftstoff / km</value>
+  </data>
+  <data name="Col.IATA" xml:space="preserve">
+    <value>IATA</value>
+  </data>
+  <data name="Col.Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="Col.Latitude" xml:space="preserve">
+    <value>Breitengrad</value>
+  </data>
+  <data name="Col.Longitude" xml:space="preserve">
+    <value>Längengrad</value>
+  </data>
+  <data name="Col.Model" xml:space="preserve">
+    <value>Modell</value>
+  </data>
+  <data name="Col.Registration" xml:space="preserve">
+    <value>Registrierung</value>
+  </data>
+  <data name="Col.Location" xml:space="preserve">
+    <value>Standort</value>
+  </data>
+  <data name="Col.HangarBay" xml:space="preserve">
+    <value>Hangar</value>
+  </data>
+  <data name="Col.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Col.Origin" xml:space="preserve">
+    <value>Abflug</value>
+  </data>
+  <data name="Col.Route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="Col.Aircraft" xml:space="preserve">
+    <value>Flugzeug</value>
+  </data>
+  <data name="Col.Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Col.TakeOffEffort" xml:space="preserve">
+    <value>Startaufwand</value>
+  </data>
+  <data name="Confirm.DeleteAirport" xml:space="preserve">
+    <value>{0} löschen?</value>
+  </data>
+  <data name="Confirm.DeleteFlight" xml:space="preserve">
+    <value>Flug #{0} löschen?</value>
+  </data>
+  <data name="Confirm.DeleteAircraft" xml:space="preserve">
+    <value>{0} löschen?</value>
+  </data>
+  <data name="Confirm.CannotUndo" xml:space="preserve">
+    <value>Diese Aktion kann nicht widerrufen werden.</value>
+  </data>
+  <data name="Search.Label" xml:space="preserve">
+    <value>Liste durchsuchen</value>
+  </data>
+  <data name="Search.Placeholder" xml:space="preserve">
+    <value>Suchen…</value>
+  </data>
+  <data name="Search.NoResults" xml:space="preserve">
+    <value>Keine Ergebnisse für Ihre Suche.</value>
+  </data>
+  <data name="Pagination.Nav" xml:space="preserve">
+    <value>Seitennummerierung</value>
+  </data>
+  <data name="Pagination.Previous" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="Pagination.Next" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+  <data name="Pagination.Summary" xml:space="preserve">
+    <value>{0}–{1} von {2} angezeigt</value>
+  </data>
+  <data name="Filter.All" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Filter.Status" xml:space="preserve">
+    <value>Nach Status filtern</value>
+  </data>
+  <data name="Flights.TotalCount" xml:space="preserve">
+    <value>{0} Flüge insgesamt</value>
+  </data>
+  <data name="Aircrafts.TotalCount" xml:space="preserve">
+    <value>{0} Flugzeuge insgesamt</value>
+  </data>
+  <data name="Airports.TotalCount" xml:space="preserve">
+    <value>{0} Flughäfen insgesamt</value>
+  </data>
+  <data name="Empty.Flights.Title" xml:space="preserve">
+    <value>Noch keine Flüge</value>
+  </data>
+  <data name="Empty.Flights.Message" xml:space="preserve">
+    <value>Erstellen Sie Ihren ersten Flug, um den Betrieb zu verfolgen.</value>
+  </data>
+  <data name="Empty.Airports.Title" xml:space="preserve">
+    <value>Noch keine Flughäfen</value>
+  </data>
+  <data name="Empty.Airports.Message" xml:space="preserve">
+    <value>Fügen Sie einen Flughafen hinzu, um Ihr Netzwerk aufzubauen.</value>
+  </data>
+  <data name="Empty.Aircraft.Title" xml:space="preserve">
+    <value>Noch keine Flugzeuge</value>
+  </data>
+  <data name="Empty.Aircraft.Message" xml:space="preserve">
+    <value>Fügen Sie ein Flugzeug hinzu, um Flüge zuzuweisen.</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="CruiseSpeedKmh" xml:space="preserve">
+    <value>Reisegeschwindigkeit (km/h)</value>
+  </data>
+  <data name="DepartureTime" xml:space="preserve">
+    <value>Abflugzeit</value>
+  </data>
+  <data name="Destination" xml:space="preserve">
+    <value>Ziel</value>
+  </data>
+  <data name="Error.CreateAirportFailed" xml:space="preserve">
+    <value>Flughafen konnte nicht erstellt werden.</value>
+  </data>
+  <data name="Error.CreateFlightFailed" xml:space="preserve">
+    <value>Flug konnte nicht erstellt werden. Flughäfen und Flugzeug prüfen.</value>
+  </data>
+  <data name="Error.CreateAircraftFailed" xml:space="preserve">
+    <value>Flugzeug konnte nicht erstellt werden.</value>
+  </data>
+  <data name="Error.DeleteAirportReferenced" xml:space="preserve">
+    <value>Löschen nicht möglich: Flughafen wird von Flügen referenziert.</value>
+  </data>
+  <data name="Error.DuplicateAirportIata" xml:space="preserve">
+    <value>Ein Flughafen mit diesem IATA-Code existiert bereits.</value>
+  </data>
+  <data name="Error.DuplicateAircraftRegistration" xml:space="preserve">
+    <value>Ein Flugzeug mit dieser Registrierung existiert bereits.</value>
+  </data>
+  <data name="Error.DeleteAircraftReferenced" xml:space="preserve">
+    <value>Löschen nicht möglich: Flugzeug wird von Flügen referenziert.</value>
+  </data>
+  <data name="Error.DevModeText1" xml:space="preserve">
+    <value>Im Development-Modus werden detailliertere Fehlerinformationen angezeigt.</value>
+  </data>
+  <data name="Error.DevModeText2" xml:space="preserve">
+    <value>Der Development-Modus sollte in produktiven Anwendungen nicht aktiviert sein.</value>
+  </data>
+  <data name="Error.DevModeTitle" xml:space="preserve">
+    <value>Entwicklungsmodus</value>
+  </data>
+  <data name="Error.Message" xml:space="preserve">
+    <value>Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten.</value>
+  </data>
+  <data name="Error.PageTitle" xml:space="preserve">
+    <value>Fehler.</value>
+  </data>
+  <data name="Error.RequestId" xml:space="preserve">
+    <value>Anfrage-ID:</value>
+  </data>
+  <data name="Error.UpdateAirportFailed" xml:space="preserve">
+    <value>Flughafen konnte nicht aktualisiert werden.</value>
+  </data>
+  <data name="Error.AircraftScheduleConflict" xml:space="preserve">
+    <value>Dieses Flugzeug hat bereits einen Flug in diesem Zeitraum.</value>
+  </data>
+  <data name="Error.AircraftWrongOrigin" xml:space="preserve">
+    <value>Das Flugzeug befindet sich zur Abflugzeit nicht an diesem Flughafen.</value>
+  </data>
+  <data name="Error.AircraftWrongOrigin.WithAvailable" xml:space="preserve">
+    <value>Das Flugzeug befindet sich zur Abflugzeit nicht an diesem Flughafen. Verfügbare Flugzeuge: {0}.</value>
+  </data>
+  <data name="Error.AircraftWrongOrigin.NoneAvailable" xml:space="preserve">
+    <value>Das Flugzeug befindet sich zur Abflugzeit nicht an diesem Flughafen. Zu diesem Zeitpunkt ist kein Flugzeug an diesem Abflugort verfügbar.</value>
+  </data>
+  <data name="Error.InvalidStatusTransition" xml:space="preserve">
+    <value>Dieser Statuswechsel ist nicht erlaubt.</value>
+  </data>
+  <data name="Error.UpdateFlightFailed" xml:space="preserve">
+    <value>Flug konnte nicht aktualisiert werden.</value>
+  </data>
+  <data name="Error.UpdateAircraftFailed" xml:space="preserve">
+    <value>Flugzeug konnte nicht aktualisiert werden.</value>
+  </data>
+  <data name="FlightStatus.Arrived" xml:space="preserve">
+    <value>Angekommen</value>
+  </data>
+  <data name="FlightStatus.Cancelled" xml:space="preserve">
+    <value>Storniert</value>
+  </data>
+  <data name="FlightStatus.Departed" xml:space="preserve">
+    <value>Abgeflogen</value>
+  </data>
+  <data name="FlightStatus.Scheduled" xml:space="preserve">
+    <value>Geplant</value>
+  </data>
+  <data name="Footer.Copyright" xml:space="preserve">
+    <value>Alle Rechte vorbehalten.</value>
+  </data>
+  <data name="Footer.Privacy" xml:space="preserve">
+    <value>Datenschutz</value>
+  </data>
+  <data name="FuelConsumptionPerKm" xml:space="preserve">
+    <value>Kraftstoffverbrauch / km</value>
+  </data>
+  <data name="Home.Card.Airports" xml:space="preserve">
+    <value>Flughäfen</value>
+  </data>
+  <data name="Home.Card.AirportsDesc" xml:space="preserve">
+    <value>Flughafenregister und Koordinaten verwalten.</value>
+  </data>
+  <data name="Home.Card.Flights" xml:space="preserve">
+    <value>Flüge</value>
+  </data>
+  <data name="Home.Card.FlightsDesc" xml:space="preserve">
+    <value>Flugbetrieb aircraftn und verfolgen.</value>
+  </data>
+  <data name="Home.Card.Aircrafts" xml:space="preserve">
+    <value>Flotte</value>
+  </data>
+  <data name="Home.Card.AircraftsDesc" xml:space="preserve">
+    <value>Flugzeugleistungsprofile konfigurieren.</value>
+  </data>
+  <data name="Home.Card.Report" xml:space="preserve">
+    <value>Berichte</value>
+  </data>
+  <data name="Home.Card.ReportDesc" xml:space="preserve">
+    <value>Betriebsübersichten und Kennzahlen anzeigen.</value>
+  </data>
+  <data name="Home.Card.Simulation" xml:space="preserve">
+    <value>Live-Simulation</value>
+  </data>
+  <data name="Home.Card.SimulationDesc" xml:space="preserve">
+    <value>Beobachten Sie Flüge in Echtzeit über den Globus.</value>
+  </data>
+  <data name="Home.HeroSubtitle" xml:space="preserve">
+    <value>Verwalten Sie Flughäfen, Flotte und Flüge mit Echtzeit-Entfernungs- und Kraftstoffberechnungen.</value>
+  </data>
+  <data name="Home.HeroTitle" xml:space="preserve">
+    <value>Flugbetriebszentrale</value>
+  </data>
+  <data name="Home.Dashboard.Title" xml:space="preserve">
+    <value>Betriebsübersicht</value>
+  </data>
+  <data name="Home.Dashboard.Subtitle" xml:space="preserve">
+    <value>Live-Status im gesamten Netzwerk</value>
+  </data>
+  <data name="Home.Kpi.ActiveFlights" xml:space="preserve">
+    <value>Aktive Flüge</value>
+  </data>
+  <data name="Home.Kpi.ActiveFlights.Sub" xml:space="preserve">
+    <value>gerade in der Luft</value>
+  </data>
+  <data name="Home.Kpi.FleetSplit" xml:space="preserve">
+    <value>Am Boden / In der Luft</value>
+  </data>
+  <data name="Home.Kpi.FleetSplit.Sub" xml:space="preserve">
+    <value>Flugzeuge in der Flotte</value>
+  </data>
+  <data name="Home.Kpi.UpcomingDepartures" xml:space="preserve">
+    <value>Anstehende Abflüge</value>
+  </data>
+  <data name="Home.Kpi.UpcomingDepartures.Sub" xml:space="preserve">
+    <value>nächste 2 Stunden</value>
+  </data>
+  <data name="Home.Kpi.CancelledToday" xml:space="preserve">
+    <value>Heute storniert</value>
+  </data>
+  <data name="Home.Kpi.CancelledToday.Sub" xml:space="preserve">
+    <value>Flüge</value>
+  </data>
+  <data name="Home.Panel.NextDepartures" xml:space="preserve">
+    <value>Nächste Abflüge</value>
+  </data>
+  <data name="Home.Panel.FleetStatus" xml:space="preserve">
+    <value>Flottenstatus</value>
+  </data>
+  <data name="Home.ViewAll" xml:space="preserve">
+    <value>Alle anzeigen</value>
+  </data>
+  <data name="Home.Empty.NextDepartures" xml:space="preserve">
+    <value>Keine anstehenden Abflüge geplant.</value>
+  </data>
+  <data name="Home.Empty.FleetStatus" xml:space="preserve">
+    <value>Noch keine Flugzeuge in der Flotte.</value>
+  </data>
+  <data name="Home.QuickLink.Simulation" xml:space="preserve">
+    <value>Live-Simulation</value>
+  </data>
+  <data name="Home.QuickLink.Reports" xml:space="preserve">
+    <value>Flugberichte</value>
+  </data>
+  <data name="IATA" xml:space="preserve">
+    <value>IATA</value>
+  </data>
+  <data name="Label.ArrivalTime" xml:space="preserve">
+    <value>Ankunftszeit</value>
+  </data>
+  <data name="Label.DistanceKm" xml:space="preserve">
+    <value>Entfernung (km)</value>
+  </data>
+  <data name="Label.Fuel" xml:space="preserve">
+    <value>Kraftstoff</value>
+  </data>
+  <data name="Label.Locked" xml:space="preserve">
+    <value>Gesperrt</value>
+  </data>
+  <data name="Label.Calculated" xml:space="preserve">
+    <value>Berechnet</value>
+  </data>
+  <data name="Label.BaseAirport" xml:space="preserve">
+    <value>Heimatflughafen</value>
+  </data>
+  <data name="Label.Optional" xml:space="preserve">
+    <value>(optional)</value>
+  </data>
+  <data name="Lang.De" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="Lang.En" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Lang.Pt" xml:space="preserve">
+    <value>Português</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Breitengrad</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Längengrad</value>
+  </data>
+  <data name="Model" xml:space="preserve">
+    <value>Modell</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Nav.Airports" xml:space="preserve">
+    <value>Flughäfen</value>
+  </data>
+  <data name="Nav.Flights" xml:space="preserve">
+    <value>Flüge</value>
+  </data>
+  <data name="Nav.Home" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Nav.Language" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="Nav.UtcTime" xml:space="preserve">
+    <value>Koordinierte Weltzeit</value>
+  </data>
+  <data name="Nav.Aircrafts" xml:space="preserve">
+    <value>Flugzeuge</value>
+  </data>
+  <data name="Nav.Report" xml:space="preserve">
+    <value>Bericht</value>
+  </data>
+  <data name="Nav.Simulation" xml:space="preserve">
+    <value>Simulation</value>
+  </data>
+  <data name="Nav.Login" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Nav.Logout" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Login.Title" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Login.SubmitButton" xml:space="preserve">
+    <value>Anmelden</value>
+  </data>
+  <data name="Login.InvalidCredentials" xml:space="preserve">
+    <value>Ungültige E-Mail-Adresse oder ungültiges Passwort.</value>
+  </data>
+  <data name="Login.AccessDenied" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="Login.AccessDeniedText" xml:space="preserve">
+    <value>Du hast keine Berechtigung, diese Seite anzuzeigen.</value>
+  </data>
+  <data name="Origin" xml:space="preserve">
+    <value>Abflug</value>
+  </data>
+  <data name="Privacy.Contact" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+  <data name="Privacy.ContactText" xml:space="preserve">
+    <value>Bei Datenschutzfragen wenden Sie sich an den FlightOps-Administrator.</value>
+  </data>
+  <data name="Privacy.Cookies" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="Privacy.CookiesText" xml:space="preserve">
+    <value>Wir verwenden ein Kultur-Cookie, um Ihre Sprachauswahl zu speichern.</value>
+  </data>
+  <data name="Privacy.DataCollected" xml:space="preserve">
+    <value>Erhobene Daten</value>
+  </data>
+  <data name="Privacy.DataCollectedText" xml:space="preserve">
+    <value>FlightOps speichert von Ihnen eingegebene Betriebsdaten: Flughäfen, Flugzeuge und Flugpläne. Persönliche Benutzerkonten sind nicht erforderlich.</value>
+  </data>
+  <data name="Privacy.Intro" xml:space="preserve">
+    <value>Diese Richtlinie beschreibt, wie FlightOps Ihre Daten behandelt.</value>
+  </data>
+  <data name="Privacy.Purpose" xml:space="preserve">
+    <value>Zweck</value>
+  </data>
+  <data name="Privacy.PurposeText" xml:space="preserve">
+    <value>Daten werden ausschließlich für Flugmanagement- und Simulationsfunktionen in dieser Anwendung verwendet.</value>
+  </data>
+  <data name="Report.Summary" xml:space="preserve">
+    <value>Zusammenfassung aller Flüge mit berechneter Entfernung und Kraftstoff.</value>
+  </data>
+  <data name="Report.DetailSummary" xml:space="preserve">
+    <value>Operative Kennzahlen für diesen Flug.</value>
+  </data>
+  <data name="Section.AircraftInfo" xml:space="preserve">
+    <value>Identifikation</value>
+  </data>
+  <data name="Section.Performance" xml:space="preserve">
+    <value>Leistung</value>
+  </data>
+  <data name="Section.FlightHistory" xml:space="preserve">
+    <value>Flughistorie</value>
+  </data>
+  <data name="Section.AirportInfo" xml:space="preserve">
+    <value>Flughafeninformationen</value>
+  </data>
+  <data name="Section.AircraftOnGround" xml:space="preserve">
+    <value>Flugzeuge am Boden</value>
+  </data>
+  <data name="Section.RecentFlights" xml:space="preserve">
+    <value>Aktuelle Flüge</value>
+  </data>
+  <data name="Section.Route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="Section.Schedule" xml:space="preserve">
+    <value>Zeitplan</value>
+  </data>
+  <data name="Section.Coordinates" xml:space="preserve">
+    <value>Koordinaten</value>
+  </data>
+  <data name="Section.Calculated" xml:space="preserve">
+    <value>Berechnet</value>
+  </data>
+  <data name="Section.ReportMetrics" xml:space="preserve">
+    <value>Berichtskennzahlen</value>
+  </data>
+  <data name="Empty.FlightHistory" xml:space="preserve">
+    <value>Keine Flüge erfasst.</value>
+  </data>
+  <data name="Empty.AircraftOnGround" xml:space="preserve">
+    <value>Keine Flugzeuge an diesem Flughafen.</value>
+  </data>
+  <data name="Simulation.Distance" xml:space="preserve">
+    <value>Entfernung</value>
+  </data>
+  <data name="Simulation.Duration" xml:space="preserve">
+    <value>Geschätzte Dauer</value>
+  </data>
+  <data name="Simulation.Instructions" xml:space="preserve">
+    <value>Verfolgen Sie laufende Flüge auf dem Globus. Wählen Sie einen Flug für Live-Details.</value>
+  </data>
+  <data name="Simulation.ActiveFlights" xml:space="preserve">
+    <value>Laufende Flüge</value>
+  </data>
+  <data name="Simulation.NoActiveFlights" xml:space="preserve">
+    <value>Keine laufenden Flüge. Setzen Sie einen Flug auf Abgeflogen mit Abflug in der Vergangenheit und Ankunft in der Zukunft.</value>
+  </data>
+  <data name="Simulation.FlightDetails" xml:space="preserve">
+    <value>Flugdetails</value>
+  </data>
+  <data name="Simulation.Route" xml:space="preserve">
+    <value>Route</value>
+  </data>
+  <data name="Simulation.TimeRemaining" xml:space="preserve">
+    <value>Verbleibende Zeit</value>
+  </data>
+  <data name="Simulation.Progress" xml:space="preserve">
+    <value>Fortschritt</value>
+  </data>
+  <data name="Simulation.FuelConsumed" xml:space="preserve">
+    <value>Verbrauchter Kraftstoff</value>
+  </data>
+  <data name="Simulation.FuelBurnRate" xml:space="preserve">
+    <value>Verbrauchsrate</value>
+  </data>
+  <data name="Simulation.TotalFuel" xml:space="preserve">
+    <value>Geplanter Gesamtkraftstoff</value>
+  </data>
+  <data name="Simulation.SelectRoute" xml:space="preserve">
+    <value>Route für Simulation auswählen</value>
+  </data>
+  <data name="Simulation.Start" xml:space="preserve">
+    <value>Starten</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TakeOffEffort" xml:space="preserve">
+    <value>Startaufwand</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Registrierung</value>
+  </data>
+  <data name="HangarBay" xml:space="preserve">
+    <value>Hangarplatz</value>
+  </data>
+  <data name="HomeAirport" xml:space="preserve">
+    <value>Heimatflughafen</value>
+  </data>
+  <data name="AircraftStatus.InFlight" xml:space="preserve">
+    <value>Im Flug</value>
+  </data>
+  <data name="Title.Airports" xml:space="preserve">
+    <value>Flughäfen</value>
+  </data>
+  <data name="Title.CreateAirport" xml:space="preserve">
+    <value>Flughafen erstellen</value>
+  </data>
+  <data name="Title.CreateFlight" xml:space="preserve">
+    <value>Flug erstellen</value>
+  </data>
+  <data name="Title.CreateAircraft" xml:space="preserve">
+    <value>Flugzeug erstellen</value>
+  </data>
+  <data name="Title.EditAirport" xml:space="preserve">
+    <value>Flughafen bearbeiten</value>
+  </data>
+  <data name="Title.EditFlight" xml:space="preserve">
+    <value>Flug bearbeiten</value>
+  </data>
+  <data name="Title.EditAircraft" xml:space="preserve">
+    <value>Flugzeug bearbeiten</value>
+  </data>
+  <data name="Title.Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="Title.FlightReport" xml:space="preserve">
+    <value>Flugbericht</value>
+  </data>
+  <data name="Title.Flights" xml:space="preserve">
+    <value>Flüge</value>
+  </data>
+  <data name="Title.Home" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Title.Aircrafts" xml:space="preserve">
+    <value>Flugzeuge</value>
+  </data>
+  <data name="Title.Privacy" xml:space="preserve">
+    <value>Datenschutzerklärung</value>
+  </data>
+  <data name="Title.AircraftDetails" xml:space="preserve">
+    <value>Flugzeug {0}</value>
+  </data>
+  <data name="Title.AirportDetails" xml:space="preserve">
+    <value>Flughafen {0}</value>
+  </data>
+  <data name="Title.FlightDetails" xml:space="preserve">
+    <value>{0} → {1}</value>
+  </data>
+  <data name="Title.FlightReportDetail" xml:space="preserve">
+    <value>Bericht — {0} → {1}</value>
+  </data>
+  <data name="Title.Simulation" xml:space="preserve">
+    <value>Flugsimulation</value>
+  </data>
+</root>

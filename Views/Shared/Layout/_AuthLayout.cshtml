@@ -1,0 +1,47 @@
+@using System.Globalization
+@{
+    var culture = CultureInfo.CurrentUICulture.Name;
+    var lang = culture.StartsWith("pt", StringComparison.OrdinalIgnoreCase) ? "pt"
+        : culture.StartsWith("de", StringComparison.OrdinalIgnoreCase) ? "de" : "en";
+    var centerMain = ViewData["CenterMain"] as bool? ?? false;
+}
+<!DOCTYPE html>
+<html lang="@lang" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @SharedLocalizer["AppName"]</title>
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" asp-append-version="true" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32.png" asp-append-version="true" />
+    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FlightOps.styles.css" asp-append-version="true" />
+</head>
+<body class="d-flex flex-column min-vh-100 auth-page">
+    <header class="auth-header">
+        @await Html.PartialAsync("Layout/_AuthTopbar")
+    </header>
+    <main class="container flex-grow-1 pb-4@(centerMain ? " d-flex flex-column justify-content-center" : "")" role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top footer text-muted app-footer">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
+            <span>&copy; 2026 - @SharedLocalizer["AppName"].Value - @SharedLocalizer["Footer.Copyright"].Value</span>
+            <a asp-controller="Home" asp-action="Privacy">@SharedLocalizer["Footer.Privacy"].Value</a>
+        </div>
+    </footer>
+
+    @await Html.PartialAsync("Layout/_ToastStack")
+
+    <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

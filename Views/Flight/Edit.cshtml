@@ -1,0 +1,141 @@
+@model FlightModel
+@using FlightOps.Enums
+@using FlightOps.Helpers
+@using System.Globalization
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.EditFlight"];
+    bool editBlocked = ViewBag.EditBlocked == true;
+    bool isDeparted = Model.Status == FlightStatus.Departed;
+    DateTime arrivalUtc = Model.ArrivalTime.Kind == DateTimeKind.Unspecified
+        ? DateTime.SpecifyKind(Model.ArrivalTime, DateTimeKind.Utc)
+        : Model.ArrivalTime.ToUniversalTime();
+}
+
+@await Html.PartialAsync("Forms/_EntityFormOpen", SharedLocalizer["Title.EditFlight"].Value)
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (editBlocked)
+    {
+        <div class="alert alert-warning d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+            <span>@SharedLocalizer["Alert.EditBlocked", SharedLocalizer[$"FlightStatus.{Model.Status}"]]</span>
+        </div>
+    }
+
+    @if (isDeparted)
+    {
+        <input type="hidden" asp-for="OriginId" />
+        <input type="hidden" asp-for="AircraftId" />
+    }
+
+    <section class="entity-form-section" aria-labelledby="flight-route-heading">
+        <h2 id="flight-route-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Route"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="OriginId" class="form-label entity-form-label-required"></label>
+                @if (isDeparted)
+                {
+                    <div class="field-locked">
+                        <span>@Model.Origin?.IATA — @Model.Origin?.City</span>
+                        <span class="field-locked-tag">
+                            <i class="bi bi-lock-fill" aria-hidden="true"></i>@SharedLocalizer["Label.Locked"]
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <select asp-for="OriginId" asp-items="ViewBag.OriginId" class="form-select" disabled="@editBlocked"></select>
+                }
+                <span asp-validation-for="OriginId" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="DestinationId" class="form-label entity-form-label-required"></label>
+                <select asp-for="DestinationId" asp-items="ViewBag.DestinationId" class="form-select" disabled="@editBlocked"></select>
+                <span asp-validation-for="DestinationId" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="AircraftId" class="form-label entity-form-label-required"></label>
+                @if (isDeparted)
+                {
+                    <div class="field-locked">
+                        <span>@Model.Aircraft?.Registration — @Model.Aircraft?.Name</span>
+                        <span class="field-locked-tag">
+                            <i class="bi bi-lock-fill" aria-hidden="true"></i>@SharedLocalizer["Label.Locked"]
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <select asp-for="AircraftId" asp-items="ViewBag.AircraftId" class="form-select" disabled="@editBlocked"></select>
+                }
+                <span asp-validation-for="AircraftId" class="text-danger"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="flight-schedule-heading">
+        <h2 id="flight-schedule-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Schedule"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <label asp-for="DepartureTime" class="form-label entity-form-label-required"></label>
+                <input asp-for="DepartureTime" type="datetime-local" class="form-control"
+                       value="@Model.DepartureTime.ToString("yyyy-MM-ddTHH:mm")"
+                       disabled="@editBlocked" />
+                <span asp-validation-for="DepartureTime" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6">
+                <label asp-for="Status" class="form-label entity-form-label-required"></label>
+                <select asp-for="Status" asp-items="ViewBag.Status" class="form-select" disabled="@editBlocked"></select>
+            </div>
+        </div>
+    </section>
+
+    <section class="entity-form-section" aria-labelledby="flight-calc-heading">
+        <h2 id="flight-calc-heading" class="entity-form-section-title">
+            @SharedLocalizer["Section.Calculated"]
+        </h2>
+        <div class="row g-3">
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.DistanceKm"]</label>
+                <div class="field-calculated">
+                    @NumberFormatHelper.Invariant(Model.Distance)
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.Fuel"]</label>
+                <div class="field-calculated">
+                    @NumberFormatHelper.Invariant(Model.Fuel)
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">@SharedLocalizer["Label.ArrivalTime"]</label>
+                <div class="field-calculated">
+                    <time data-fo-utc-datetime datetime="@arrivalUtc.ToString("o", CultureInfo.InvariantCulture)">
+                        @arrivalUtc.ToString("g")
+                    </time>
+                    <span class="field-calculated-tag">@SharedLocalizer["Label.Calculated"]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @await Html.PartialAsync("Forms/_EntityFormFooter", new EntityFormFooterModel
+    {
+        SubmitLabel = SharedLocalizer["Btn.Save"].Value,
+        ShowSubmit = !editBlocked
+    })
+</form>
+@await Html.PartialAsync("Forms/_EntityFormClose")
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("Layout/_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,28 @@
+@model IEnumerable<FlightModel>
+@using FlightOps.Enums
+
+@{
+    Dictionary<FlightStatus, int> counts = Model
+        .GroupBy(f => f.Status)
+        .ToDictionary(g => g.Key, g => g.Count());
+    int total = Model.Count();
+}
+
+<div class="list-status-filters mb-3" data-fo-status-filters role="group" aria-label="@SharedLocalizer["Filter.Status"]">
+    <button type="button" class="list-status-filter list-status-filter-all is-active" data-fo-status-filter="all">
+        @SharedLocalizer["Filter.All"]
+        <span class="list-status-filter-count">@total</span>
+    </button>
+    @foreach (FlightStatus status in Enum.GetValues<FlightStatus>())
+    {
+        string variant = status.ToString().ToLowerInvariant();
+        int count = counts.GetValueOrDefault(status);
+        <button type="button"
+                class="list-status-filter list-status-filter-@variant"
+                data-fo-status-filter="@status">
+            <span class="list-status-filter-dot" aria-hidden="true"></span>
+            @SharedLocalizer[$"FlightStatus.{status}"]
+            <span class="list-status-filter-count">@count</span>
+        </button>
+    }
+</div>

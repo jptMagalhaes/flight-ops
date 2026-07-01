@@ -1,0 +1,34 @@
+@model FlightOps.Models.Components.Kpi.KpiCardModel
+
+@if (Model.Variant == "simple")
+{
+    <div class="kpi-card kpi-card--simple text-center">
+        <div class="kpi-card-label">@Model.Label</div>
+        <div class="kpi-card-value">
+            @Model.Value
+            @if (!string.IsNullOrWhiteSpace(Model.Unit))
+            {
+                <small class="kpi-card-unit">@Model.Unit</small>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="kpi-card kpi-card--dashboard kpi-card--@Model.Variant">
+        <div class="kpi-card-top">
+            <span class="kpi-card-label">@Model.Label</span>
+            @if (!string.IsNullOrWhiteSpace(Model.IconClass))
+            {
+                <span class="kpi-card-icon" aria-hidden="true">
+                    <i class="bi @Model.IconClass"></i>
+                </span>
+            }
+        </div>
+        <div class="kpi-card-value">@Model.Value</div>
+        @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+        {
+            <div class="kpi-card-sub">@Model.Subtitle</div>
+        }
+    </div>
+}

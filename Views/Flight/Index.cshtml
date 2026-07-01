@@ -1,0 +1,151 @@
+@model IEnumerable<FlightModel>
+@using FlightOps.Enums
+@using FlightOps.Helpers
+
+@{
+    ViewData["Title"] = SharedLocalizer["Title.Flights"];
+    List<FlightModel> flights = Model.ToList();
+    int flightTotal = flights.Count;
+}
+
+@if (flightTotal == 0)
+{
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+        <h1 class="mb-0">@SharedLocalizer["Title.Flights"]</h1>
+        <div class="d-flex gap-2">
+            <a asp-action="Report" class="btn btn-secondary">@SharedLocalizer["Nav.Report"]</a>
+            @if (User.IsInRole("Operator"))
+            {
+                <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+            }
+        </div>
+    </div>
+    <div class="empty-state">
+        <div class="empty-state-icon"><i class="bi bi-airplane"></i></div>
+        <div class="empty-state-title">@SharedLocalizer["Empty.Flights.Title"]</div>
+        <p class="empty-state-msg mb-0">@SharedLocalizer["Empty.Flights.Message"]</p>
+        @if (User.IsInRole("Operator"))
+        {
+            <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+        }
+    </div>
+}
+else
+{
+    <div data-fo-list-search data-fo-page-size="10">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 page-header">
+            <h1 class="mb-0 d-flex align-items-center gap-2 flex-wrap">
+                @SharedLocalizer["Title.Flights"]
+                <span class="page-header-count" aria-label="@SharedLocalizer["Flights.TotalCount", flightTotal]">@flightTotal</span>
+            </h1>
+            <div class="page-header-actions">
+                @await Html.PartialAsync("Lists/_ListSearchBar")
+                <div class="d-flex gap-2">
+                    <a asp-action="Report" class="btn btn-secondary">@SharedLocalizer["Nav.Report"]</a>
+                    @if (User.IsInRole("Operator"))
+                    {
+                        <a asp-action="Create" class="btn btn-primary">@SharedLocalizer["Btn.CreateNew"]</a>
+                    }
+                </div>
+            </div>
+        </div>
+        @await Html.PartialAsync("~/Views/Flight/_FlightStatusFilters.cshtml", flights)
+        <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>@SharedLocalizer["Col.Origin"]</th>
+                    <th>@SharedLocalizer["Col.Destination"]</th>
+                    <th>@SharedLocalizer["Col.Aircraft"]</th>
+                    <th>@SharedLocalizer["Col.Distance"]</th>
+                    <th>@SharedLocalizer["Col.Fuel"]</th>
+                    <th>@SharedLocalizer["Col.Departure"]</th>
+                    <th>@SharedLocalizer["Col.Arrival"]</th>
+                    <th>@SharedLocalizer["Col.Status"]</th>
+                    <th class="text-end">@SharedLocalizer["Col.Actions"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (FlightModel flight in flights)
+                {
+                    <tr data-fo-list-status="@flight.Status">
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListAirportCell", new ListAirportCellModel
+                            {
+                                Iata = flight.Origin.IATA,
+                                Detail = flight.Origin.City
+                            })
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListAirportCell", new ListAirportCellModel
+                            {
+                                Iata = flight.Destination.IATA,
+                                Detail = flight.Destination.City
+                            })
+                        </td>
+                        <td>
+                            <div class="report-list-route">
+                                <span class="report-list-route-primary">@flight.Aircraft.Registration</span>
+                                @if (!string.IsNullOrWhiteSpace(flight.Aircraft.Name))
+                                {
+                                    <span class="report-list-route-secondary">@flight.Aircraft.Name</span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                            {
+                                Value = NumberFormatHelper.Invariant(flight.Distance),
+                                Unit = "km"
+                            })
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListMetric", new ListMetricModel
+                            {
+                                Value = NumberFormatHelper.Invariant(flight.Fuel),
+                                Unit = "L"
+                            })
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListDateTime", new ListDateTimeModel { Value = flight.DepartureTime })
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Lists/_ListDateTime", new ListDateTimeModel { Value = flight.ArrivalTime })
+                        </td>
+                        <td>
+                            @await Html.PartialAsync("Badges/_StatusBadge", flight.Status)
+                        </td>
+                        <td class="text-end">
+                            @await Html.PartialAsync("Lists/_ListRowActions", new ListRowActionsModel
+                            {
+                                Id = flight.Id,
+                                DeleteModalId = $"delFlightModal-{flight.Id}"
+                            })
+
+                            <div class="modal fade" id="delFlightModal-@flight.Id" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body p-4">
+                                            <div class="modal-icon-box"><i class="bi bi-trash3"></i></div>
+                                            <div class="fw-bold fs-5 mb-1">@SharedLocalizer["Confirm.DeleteFlight", flight.Id]</div>
+                                            <p class="mb-0" style="color:var(--fo-muted);">@SharedLocalizer["Confirm.CannotUndo"]</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedLocalizer["Btn.Cancel"]</button>
+                                            <form asp-action="Delete" asp-route-id="@flight.Id" method="post" class="m-0">
+                                                <button type="submit" class="btn btn-danger">@SharedLocalizer["Btn.Delete"]</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        @await Html.PartialAsync("Lists/_ListPagination")
+        <p class="list-search-no-results d-none" data-fo-list-search-empty role="status">@SharedLocalizer["Search.NoResults"]</p>
+    </div>
+}

@@ -1,0 +1,11 @@
+@{
+    Layout = "Layout/_AuthLayout";
+    ViewData["Title"] = SharedLocalizer["Login.AccessDenied"];
+    ViewData["CenterMain"] = true;
+}
+
+<div class="text-center mt-5">
+    <h1 class="h3">@SharedLocalizer["Login.AccessDenied"]</h1>
+    <p>@SharedLocalizer["Login.AccessDeniedText"]</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">@SharedLocalizer["Btn.BackToHome"]</a>
+</div>

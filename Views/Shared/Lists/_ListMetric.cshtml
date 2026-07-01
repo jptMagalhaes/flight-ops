@@ -1,0 +1,9 @@
+@model ListMetricModel
+
+<span class="list-metric@(Model.Emphasis ? " list-metric-emphasis" : "")">
+    <span class="list-metric-value">@Model.Value</span>
+    @if (!string.IsNullOrWhiteSpace(Model.Unit))
+    {
+        <span class="list-metric-unit">@Model.Unit</span>
+    }
+</span>
