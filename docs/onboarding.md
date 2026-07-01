@@ -18,8 +18,8 @@ Get from clone to a running app in under five minutes, then learn where things l
 ## First run
 
 ```bash
-git clone https://github.com/youputmoeda/FlightOps.git
-cd FlightOps
+git clone https://github.com/youputmoeda/flight-ops.git
+cd flight-ops
 dotnet run
 ```
 
