@@ -1,6 +1,6 @@
 # FlightOps
 
-![CI](https://github.com/youputmoeda/FlightOps/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/youputmoeda/flight-ops/actions/workflows/ci.yml/badge.svg)
 
 A flight operations management system built with **ASP.NET Core 9** and **Entity Framework Core** — real-time 3D flight simulation on a WebGL globe, role-based access control, automated flight lifecycle management, and a full CRUD back office for a global fleet of aircraft.
 
@@ -247,8 +247,8 @@ See [`docs/onboarding.md`](docs/onboarding.md) for the full contributor workflow
 **Prerequisites:** [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9)
 
 ```bash
-git clone https://github.com/youputmoeda/FlightOps.git
-cd FlightOps
+git clone https://github.com/youputmoeda/flight-ops.git
+cd flight-ops
 dotnet run
 ```
 
