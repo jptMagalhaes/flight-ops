@@ -76,14 +76,51 @@ public static class DbSeeder
         DateTime now = timeProvider.GetUtcNow().UtcDateTime;
 
         context.Flights.AddRange(
-            BuildFlight(airports["LIS"], airports["OPO"], aircraft["CS-TUI"], now.Date.AddHours(10), FlightStatus.Scheduled),
-            BuildFlight(airports["LIS"], airports["MAD"], aircraft["CS-TUK"], now.AddMinutes(-45), FlightStatus.Departed),
-            BuildFlight(airports["OPO"], airports["LHR"], aircraft["CS-TVB"], now.Date.AddDays(-1).AddHours(10), FlightStatus.Arrived),
-            BuildFlight(airports["MAD"], airports["LIS"], aircraft["EC-MXY"], now.Date.AddHours(18), FlightStatus.Cancelled),
-            BuildFlight(airports["FRA"], airports["AMS"], aircraft["D-AIZA"], now.Date.AddHours(14), FlightStatus.Scheduled),
-            BuildFlight(airports["CDG"], airports["LHR"], aircraft["F-GKXY"], now.Date.AddHours(16), FlightStatus.Scheduled),
-            BuildFlight(airports["DXB"], airports["SIN"], aircraft["A6-EOA"], now.AddMinutes(-120), FlightStatus.Departed),
-            BuildFlight(airports["JFK"], airports["LAX"], aircraft["N12345"], now.Date.AddDays(-2).AddHours(8), FlightStatus.Arrived));
+            // Departed — currently in the air, so /Simulation has more than a couple of aircraft
+            // moving on the globe the first time someone opens the app.
+            BuildFlight(airports["LIS"], airports["OPO"], aircraft["CS-TUI"], now.AddMinutes(-8), FlightStatus.Departed),
+            BuildFlight(airports["OPO"], airports["LHR"], aircraft["CS-TVB"], now.AddMinutes(-60), FlightStatus.Departed),
+            BuildFlight(airports["MAD"], airports["BCN"], aircraft["EC-NXY"], now.AddMinutes(-10), FlightStatus.Departed),
+            BuildFlight(airports["LHR"], airports["CDG"], aircraft["G-EUUP"], now.AddMinutes(-10), FlightStatus.Departed),
+            BuildFlight(airports["FRA"], airports["MUC"], aircraft["D-AIZA"], now.AddMinutes(-8), FlightStatus.Departed),
+            BuildFlight(airports["DXB"], airports["SIN"], aircraft["A6-EOA"], now.AddMinutes(-180), FlightStatus.Departed),
+            BuildFlight(airports["JFK"], airports["LAX"], aircraft["N12345"], now.AddMinutes(-60), FlightStatus.Departed),
+            BuildFlight(airports["SIN"], airports["HKG"], aircraft["9V-SMA"], now.AddMinutes(-50), FlightStatus.Departed),
+
+            // Scheduled — later today or tomorrow, so the dashboard's "upcoming departures" and
+            // the Create-flight origin/aircraft dropdowns have real near-term traffic to show.
+            BuildFlight(airports["LIS"], airports["FAO"], aircraft["CS-TUK"], now.AddHours(3), FlightStatus.Scheduled),
+            BuildFlight(airports["MAD"], airports["LIS"], aircraft["EC-MXY"], now.AddHours(5), FlightStatus.Scheduled),
+            BuildFlight(airports["BCN"], airports["MAD"], aircraft["EC-MXZ"], now.AddHours(2), FlightStatus.Scheduled),
+            BuildFlight(airports["LHR"], airports["DUB"], aircraft["G-EZAB"], now.AddHours(4), FlightStatus.Scheduled),
+            BuildFlight(airports["CDG"], airports["BRU"], aircraft["F-GKXY"], now.AddHours(6), FlightStatus.Scheduled),
+            BuildFlight(airports["ORY"], airports["LIS"], aircraft["F-HEPJ"], now.AddHours(30), FlightStatus.Scheduled),
+            BuildFlight(airports["MUC"], airports["VIE"], aircraft["D-AISB"], now.AddHours(3), FlightStatus.Scheduled),
+            BuildFlight(airports["AMS"], airports["FRA"], aircraft["PH-BXA"], now.AddHours(5), FlightStatus.Scheduled),
+            BuildFlight(airports["BRU"], airports["CDG"], aircraft["OO-SNA"], now.AddHours(2), FlightStatus.Scheduled),
+            BuildFlight(airports["ZRH"], airports["MUC"], aircraft["HB-JCA"], now.AddHours(4), FlightStatus.Scheduled),
+
+            // Arrived — recent history, so aircraft/flight detail pages and the report have
+            // completed sectors to display, not just a wall of "Scheduled".
+            BuildFlight(airports["OPO"], airports["MAD"], aircraft["CS-TVC"], now.AddDays(-1).AddHours(9), FlightStatus.Arrived),
+            BuildFlight(airports["VIE"], airports["PRG"], aircraft["OE-LBS"], now.AddDays(-1).AddHours(11), FlightStatus.Arrived),
+            BuildFlight(airports["DUB"], airports["LHR"], aircraft["EI-DVM"], now.AddHours(-6), FlightStatus.Arrived),
+            BuildFlight(airports["LAX"], airports["JFK"], aircraft["N837DN"], now.AddDays(-1).AddHours(7), FlightStatus.Arrived),
+            BuildFlight(airports["DOH"], airports["DXB"], aircraft["A7-BEB"], now.AddHours(-8), FlightStatus.Arrived),
+            BuildFlight(airports["HKG"], airports["SIN"], aircraft["B-HNL"], now.AddDays(-1).AddHours(14), FlightStatus.Arrived),
+
+            // Cancelled — so the dashboard's "cancelled today" KPI and the report's status
+            // filter both have a non-zero, non-trivial case to show.
+            BuildFlight(airports["DEL"], airports["DXB"], aircraft["VT-ATV"], now.AddHours(7), FlightStatus.Cancelled),
+            BuildFlight(airports["JNB"], airports["CAI"], aircraft["ZS-SNA"], now.AddHours(4), FlightStatus.Cancelled),
+            BuildFlight(airports["SYD"], airports["MEL"], aircraft["VH-OQA"], now.AddHours(6), FlightStatus.Cancelled),
+            BuildFlight(airports["CAI"], airports["JNB"], aircraft["SU-GDN"], now.AddHours(9), FlightStatus.Cancelled),
+
+            // A couple of aircraft get a second, older sector so their detail pages show more
+            // than one row of flight history.
+            BuildFlight(airports["FAO"], airports["LIS"], aircraft["CS-TUI"], now.AddDays(-3).AddHours(8), FlightStatus.Arrived),
+            BuildFlight(airports["LIS"], airports["MAD"], aircraft["EC-MXY"], now.AddDays(-2).AddHours(10), FlightStatus.Arrived),
+            BuildFlight(airports["CDG"], airports["LHR"], aircraft["G-EUUP"], now.AddDays(-2).AddHours(15), FlightStatus.Arrived));
 
         await context.SaveChangesAsync();
 

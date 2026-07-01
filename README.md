@@ -253,7 +253,8 @@ dotnet run
 ```
 
 On first run the app will apply EF Core migrations (including Identity tables), seed 30+ airports,
-41 aircraft, 8 sample flights, the two roles, and the two demo accounts above.
+41 aircraft, 31 sample flights (8 currently in the air, so `/Simulation` has something to show
+immediately), the two roles, and the two demo accounts above.
 
 Open `https://localhost:<port>`, log in with either demo account, and the dashboard loads with live data.
 
